@@ -1,0 +1,104 @@
+﻿<!--Perfil do usuário-->
+<div class="user" ng-if="username" ng-class="{'aluno': hasRole('ROLE_DASHBOARD_ALUNO')}">
+	<ul class="nav navbar-nav navbar-right navbar-user">
+		<li ng-controller="PerfilController" class="dropdown">
+			<a href="" id="konviva-info-user-header" class="dropdown-toggle" ng-style="{ 'pointer-events': acessarComoRestrito  ? 'none' : '' }" data-toggle="dropdown">
+				<img alt="{{firstName}}" class="img-circle konviva-user-avatar"
+					 ng-src="{{ restPrefix}}/action/foto_model_usuario?id={{usuarioid}}&w=30&h=30&c=60&refresh={{now}}" >
+				<p class="konviva-user-info">
+					<strong class="hidden-sm hidden-xs ">
+						{{firstName}}
+					</strong>
+					<small class="hidden-sm hidden-xs  konviva-color-ccc">
+						{{ 'Perfil' | translate}}: {{ mapPerfis[idPerfilAtivo][currentLanguage] }}
+					</small>
+				</p>
+				<i class="fa fa-caret-down" aria-hidden="true"></i>
+			</a>
+			<ul class="dropdown-menu user-dropdown-menu user-dropdown-menu-perfil">
+				<i class="fa fa-chevron-up"></i>
+				<li class="divider hidden-md" ng-if="false"></li>
+				<li>
+					<a href="" ui-sref="perfil">
+						<i class="fa fa-user-circle-o"></i>
+						<span>{{ 'Meu Perfil' | translate }}</span>
+					</a>
+				</li>
+				<li ng-repeat="perfil in perfis">
+					<a href="" class="" ng-click="changePerfil(perfil)">
+						<i class="fa fa-caret-right"></i>
+						<span>{{ mapPerfis[perfil.id][currentLanguage] }}</span>
+					</a>
+				</li>
+				<li class="divider"></li>
+				<li ng-if="hasRole('ROLE_TUTORIAL')">
+					<a href="http://www.konviva.com.br/manual" target="_blank">
+						<i class="fa fa-file-text-o"></i>
+						<span>{{ 'Manual' | translate }}</span>
+					</a>
+				</li>
+				<li ng-if="hasRole('ROLE_RELEASE_NOTES')">
+					<a href="http://suporte.ilog.com.br/support/solutions/folders/1000229515" target="_blank">
+						<i class="fa fa-file-text-o"></i>
+						<span>{{ 'Release Notes' | translate }}</span>
+					</a>
+				</li>
+				<li ng-if=isSuporte>
+					<a  ng-click="openModalVersaoTema()">
+						<i class="fa fa-calendar-check-o"></i>
+						<span>{{ 'Versão do Tema' | translate }}</span>
+					</a>
+				</li>
+				<li ng-if="hasRole('ROLE_TUTORIAL')" class="divider"></li>
+				<li>
+					<a ui-sref="perfil" >
+						<i class="fa fa-user"></i>
+						<span>{{ 'Editar Perfil' | translate }}</span>
+					</a>
+				</li>
+				<li ng-if="false">
+					<a href="" >
+						<i class="fa fa-question-circle"></i>
+						<span> {{ 'Suporte' | translate }}</span>
+					</a>
+				</li>
+				<li ng-if="hasFuncionalidade('konviva.mobile.loginqrcode')" class="ng-scope btn btn-primary btn-block acesso-qr-code">
+					<a ui-sref="adminconfigmobile.loginqrcode" id="link_login_mobile" href="#/admin/config/mobile/login" style="color: #ffffff !important;">
+						<i class="fa fa-qrcode"></i> <span class="ng-binding">Login Mobile</span>
+					</a>
+				</li>
+				<li ng-if="!loginAcessoComoAluno">
+					<a href="" ng-click="logout()" >
+						<i class="glyphicon glyphicon-remove-circle"></i>
+						<span>{{ 'Sair' | translate }}</span>
+					</a>
+				</li>
+				<li class="divider"></li>
+				<li class="">
+					<ul class="language-selector list-inline pull-left">
+						<li>
+							<a href="" class="k-btn-lang k-flag-br"   ng-click="setLanguage('pt');">
+								<span>{{ 'PT' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a href=""  class="k-btn-lang k-flag-gb" ng-click="setLanguage('en');">
+								<span>{{ 'EN' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a href="" class="k-btn-lang k-flag-es" ng-click="setLanguage('es');">
+								<span>{{ 'ES' | translate }}</span>
+							</a>
+						</li>
+						<li>
+							<a href="" class="k-btn-lang k-flag-zh" id="link_set_lang_zn" ng-click="setLanguage('zh');"><span>{{ 'ZN' | translate }}</span></a>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+<!-- /menu-usuario -->

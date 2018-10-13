@@ -1,0 +1,224 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	font-size: 1em;
+	font-family: "Open Sans", Roboto, Sans Serif;
+}
+/*** formatacao geral ***/
+
+#background{
+	background: #5e66ad;
+	width: 800px;
+	height: 5280px;
+	margin: 10px auto;
+}
+
+h1{
+	color: #f9ea34;
+	text-align: center;
+	position: relative;
+}
+
+h2{
+	color: #353b60;
+	font-size: 1.4em;
+	text-align: center;
+}
+
+p{
+	color: #353b60;
+	font-size: 0.8em;
+	text-align: center;
+}
+
+/*** logo ***/
+
+#logo{
+	position: relative;
+	top: 40px;
+	left: 217px;
+}
+
+#como-ganhar, #regras, #secao2, #secao3{
+	border-bottom: 5px solid #495284;
+	border-right: 5px solid #495284;
+}
+
+/*** como ganhar ***/
+
+#como-ganhar{
+	position: relative;
+	top: 70px;
+	background: white;
+	width: 670px;
+	margin: 20px 50px;
+	padding: 15px;
+}
+
+.como-ganhar-texto{
+	display: inline-block;
+	padding: 0 30px;
+	margin-left: 35px;
+}
+
+/*** regras ***/
+
+#regras{
+	position: relative;
+	top: 100px;
+	background: white;
+	width: 670px;
+	margin: 0px 50px;
+	padding: 15px;
+}
+
+.left{
+	clear: both;
+	text-align: left;
+	padding: 20px;
+}
+
+.numeracao{
+	background: #c3b7f9;
+	margin: -30px auto 5px 5px;
+	float: left;
+	font-size: 3.8em;
+	padding: 10px;
+	border-bottom: 5px solid #a69af7;
+	border-right: 5px solid #a69af7;
+
+}
+
+hr{
+	margin: 30px auto auto 120px;
+	width: 520px;
+}
+
+#imagem-exemplo{
+	position: relative;
+	top: -110px;
+	left: 300px;
+	margin-bottom: 0;
+}
+
+.medalhas{
+	position: relative;
+	text-align: center;
+	display: inline-block;
+	padding: 10px;
+	margin-left: 100px;
+	margin-bottom: 10px;
+	align-content: flex-start;
+}
+
+.medalhas-linha4{
+	position: relative;
+	text-align: center;
+	display: inline-block;
+	padding: 0px;
+	margin-left: 75px;
+	margin-bottom: 5px;
+}
+
+.left, .como-ganhar-texto p{
+	font-size: 0.9em;
+}
+
+/*** seção 2 ***/
+
+#secao2{
+	position: relative;
+	top: 130px;
+	background: white;
+	width: 670px;
+	margin: 20px 50px;
+	padding: 15px;
+}
+
+.medalhas-regras{
+    position: relative;
+    left: 90px;
+    display: inline-block;
+    padding: 10px;
+    text-align: center;
+}
+
+#imagem-secao2-exemplo{
+	position: relative;
+	left: 110px;
+}
+
+.brasoes-secao2{
+	position: relative;
+	left: 55px;
+	display: inline-block;
+	padding: 5px;
+	margin: 30px 0;
+	text-align: center;
+}
+
+#brasao-centro{
+	position: relative;
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+/*** seção 3 ***/
+
+#secao3{
+	position: relative;
+	top: 160px;
+	background: white;
+	width: 670px;
+	height: 2600px;
+	margin: 20px 50px;
+	padding: 15px;
+}
+
+.flys{
+	position: relative;
+	float: right;
+	right: 30px;
+    top: -120px;
+	display: inline-block;
+	text-align: center;
+	margin-bottom: -90px;
+	padding: 0 10px;
+}
+
+#exemplo{
+	position: relative;
+    top: -130px;
+    left: 135px;
+}
+
+/*** outras regras ***/
+
+.numeracao-outras{
+	background: #c3b7f9;
+	margin: 15px auto 5px 5px;
+	float: left;
+	font-size: 3.8em;
+	padding: 10px;
+	border-bottom: 5px solid #a69af7;
+	border-right: 5px solid #a69af7;
+
+}
+
+.outras-regras{
+	display: inline-block;
+	float: left;
+}
+
+.left2{
+	clear: both;
+	text-align: left;
+	padding: 20px;
+}
+
+#regra14{
+	display: inline-block;
+}

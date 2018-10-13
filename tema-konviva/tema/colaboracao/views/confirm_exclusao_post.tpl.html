@@ -1,0 +1,29 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header konviva-modal-header">
+            <button type="button" class="close" ng-click="closeModalExclusaoPost()" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">
+                <span  ng-if="ehPost">{{ 'Posts' | translate }} - {{ 'Exclusão' | translate }}</span>
+                <span  ng-if="!ehPost">{{ 'Comentário' | translate }} - {{ 'Exclusão' | translate }}</span>
+            </h4>
+        </div>
+
+        <h3 ng-show="excluirPostTracker.active()" style="width: 100%" class="konviva-margin-left">
+            <div style="display:block">
+                <i class="fa fa-spinner fa-spin fa-large konviva-font16" aria-hidden="true"></i>
+            </div>
+        </h3>
+
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    {{ 'Tem certeza que deseja excluir?' | translate }}
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer konviva-modal-footer">
+            <a href="" role="button" class="btn btn-primary konviva-btn-clean" ng-click="excluirPost()" role="button">{{ 'Sim' | translate }}</a>
+            <a  class="btn btn-default konviva-btn-clean konviva-back-f2f2f2" ng-click="closeModalExclusaoPost()">{{ 'Não' | translate }}</a>
+        </div>
+    </div>
+</div>

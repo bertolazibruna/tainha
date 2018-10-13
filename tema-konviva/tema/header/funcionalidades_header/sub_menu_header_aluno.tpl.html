@@ -1,0 +1,62 @@
+﻿<!--Menu Funcionalidades-->
+<ul ng-if="hasRole('ROLE_DASHBOARD_ALUNO')" class="nav navbar-nav navbar-user tema15-menu-dropdown hidden-xs">
+	<li nclass="dropdown">
+		<a href=""  class="dropdown-toggle"  data-toggle="dropdown">
+			<i class="fa fa-th" aria-hidden="true"></i>
+			<span class="badge konviva-back-red konviva-font10 konviva-color-fff konviva-text-bold pullright konviva-badge-header" ng-if="totalMensagensNaoLidas > 0">
+								{{totalMensagensNaoLidas}}
+			</span>
+		</a>
+		<ul class="dropdown-menu user-dropdown-menu">
+			<i class="fa fa-chevron-up"></i>
+			<li>
+				<a class="konviva-content-ic-headerk-btn-temp"  href="/portal"
+				   ng-if="(!isVisitante) && hasFuncionalidade('konviva.funcionalidade.ecommerce')" >
+					<i class="fa fa-external-link-square k-icon-header"></i>
+					<span class="k-label-menu-header">{{ 'Portal' | translate}}</span>
+				</a>
+			</li>
+			<li>
+				<a  class="konviva-content-ic-headerk-btn-temp" ui-sref="forum.forumList"
+					ng-if="(!isVisitante) && hasFuncionalidade('konviva.funcionalidade.forum') && hasRole('ROLE_FORUM_GLOBAL')">
+					<i class=" glyphicon glyphicon-comment glyphicon-reverse"></i>
+					<span class="k-label-menu-header">{{ 'Fórum' | translate}}</span>
+				</a>
+			</li>
+			<li ng-if="!hasRole('ROLE_DASHBOARD_ALUNO')">
+				<a href="" class="konviva-content-ic-headerk-btn-temp" ui-sref="biblioteca.categorias({'onlyMyFiles':null,'cid':null})"
+				   ng-if="(!isVisitante) && hasFuncionalidade('konviva.funcionalidade.biblioteca') && hasRole('ROLE_BIBLIOTECA_GLOBAL')">
+					<i class="fa fa-folder"></i>
+					<span class="k-label-menu-header">{{ 'Biblioteca' | translate}}</span>
+					<!-- <span class="badge konviva-back-red konviva-font10 konviva-color-fff konviva-text-bold pullright konviva-badge-header">10</span> -->
+				</a>
+			</li>
+			<li>
+				<a class="konviva-content-ic-headerk-btn-temp" ui-sref="correio.inbox"
+				   ng-if="(!isVisitante) && hasFuncionalidade('konviva.funcionalidade.correio') && hasRole('ROLE_CORREIO_GLOBAL')">
+					<i class="fa fa-envelope"></i>
+					<span class="badge konviva-back-red konviva-font10 konviva-color-fff konviva-text-bold pullright konviva-badge-header" ng-if="totalMensagensNaoLidas > 0">
+								{{totalMensagensNaoLidas}}
+								</span>
+					<span class="k-label-menu-header">{{ 'Correio' | translate}}</span>
+				</a>
+			</li>
+			<li>
+				<!--<a class="konviva-content-ic-headerk-btn-temp" ng-if="hasFaleConoscoUsuarioLogado"  ui-sref="faleconosco">-->
+				<a class="konviva-content-ic-headerk-btn-temp" ui-sref="faleconosco">
+					<i class="fa fa-headphones" ></i>
+					<span class="k-label-menu-header">{{ 'Atendimento' | translate}}</span>
+				</a>
+			</li>
+			<li>
+				<a  class="konviva-content-ic-headerk-btn-temp"  ui-sref="faq"
+					ng-if="(!isVisitante) && hasFuncionalidade('konviva.funcionalidade.faq')">
+					<i class="fa fa-question-circle"></i>
+					<span class="k-label-menu-header">{{ 'Faq' | translate}}</span>
+				</a>
+			</li>
+			<li class="divider visible-xs"></li>
+		</ul>
+		<div class="clearfix"></div>
+	</li>
+</ul>

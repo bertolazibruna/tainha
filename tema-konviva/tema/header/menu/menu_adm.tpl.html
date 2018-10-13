@@ -1,0 +1,672 @@
+﻿<div id="menu-perfil-administrador" class="visible-xs" ng-if="hasRole('ROLE_MENU_ADMIN')" ng-controller="SidebarController">
+	<div  ng-if="username"  class="menu-perfil-administrador" >
+		<ul class="nav navbar-nav navbar-nav-admin-usuarios" ng-if="hasRole('ROLE_MENU_ADMIN')">
+			<li  ng-show="hasRoles(['ROLE_GLOBAL_MENU_USUARIOS'])">
+				<a href="" data-target="#navbar-nav-admin-usuarios" data-toggle="collapse" data-parent="#menu-perfil-administrador">
+					<span class="k-label-menu-header">{{'Usuários' | translate}}</span>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+				</a>
+				<ul class="nav navbar-nav  nav-stacked collapse " id="navbar-nav-admin-usuarios" ng-class="{'in' : gamificacaoMenu }">
+					<li role="presentation"
+						ng-show="hasRoles(['ROLE_UNIDADES_VISUALIZAR','ROLE_UNIDADES_EDITAR','ROLE_UNIDADES_EXCLUIR','ROLE_UNIDADES_CRIAR','ROLE_UNIDADE'])">
+						<a role="menuitem" tabindex="-1" ui-sref="adminUnidade.listagem" ng-click="reloadSidebar()">
+							{{'Unidades' | translate}}
+						</a>
+					</li>
+					<li role="presentation"
+						ng-show="hasRoles(['ROLE_USUARIO_MENU','ROLE_USUARIOS_CRIAR','ROLE_USUARIOS_EDITAR','ROLE_USUARIOS_VISUALIZAR','ROLE_USUARIOS_EXCLUIR','ROLE_USUARIOS_ACESSOS'])">
+						<a role="menuitem" tabindex="-1" ui-sref="adminUsuario.listagem" ng-click="reloadSidebar()">
+							{{'Administrar Usuários' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-show="hasRoles(['ROLE_SETOR_MENU'])">
+						<a role="menuitem" tabindex="-1" ui-sref="adminSetor.listagem" ng-click="reloadSidebar()">
+							{{'Setores' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-show="hasRoles(['ROLE_CARGO_MENU'])">
+						<a role="menuitem" tabindex="-1" ui-sref="adminCargo.listagem" ng-click="reloadSidebar()">
+							{{'Cargos' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-show="hasRole('ROLE_LOCAL') && hasFuncionalidade('konviva.funcionalidade.competencias')">
+						<a role="menuitem" tabindex="-1" ui-sref="adminLocal.listagem" ng-click="reloadSidebar()">
+							{{'Alocações' | translate}}
+						</a>
+					</li>
+					<li role="presentation"
+						ng-show="hasRole('ROLE_PUBLICOALVO') && (hasFuncionalidade('konviva.funcionalidade.cursos') || hasFuncionalidade('konviva.funcionalidade.competencias'))">
+						<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('publicoAlvo')" ng-click="reloadSidebar()">
+							{{'Públicos-Alvo' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-show="hasRole('ROLE_TERMO_ACEITE_VISUALIZACAO') && menuConfiguracao['termoAceite']">
+						<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('termoAceite')" ng-click="reloadSidebar()">
+							{{'Termo de Aceite' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-show="hasRole('ROLE_FICHA_ADMIN') && menuConfiguracao['isEnableFichaInscricao']">
+						<a role="menuitem" tabindex="-1" ui-sref="adminficha.listar" ng-click="reloadSidebar()">
+							{{'Fichas de Inscrição' | translate}}
+						</a>
+					</li>
+				</ul>
+			</li>
+
+		</ul>
+		<ul class="nav navbar-nav navbar-nav-admin-aprendizagem"
+			ng-show="hasFuncionalidade('konviva.funcionalidade.cursos') && hasRoles(['ROLE_GLOBAL_MENU_APRENDIZAGEM'])">
+			<li >
+				<a href="" data-target="#navbar-nav-admin-aprendizagem" data-toggle="collapse" data-parent=".navbar-nav-admin-aprendizagem">
+					<span class="k-label-menu-header">{{'Aprendizagem' | translate}}</span>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+				</a>
+				<ul class="nav navbar-nav  nav-stacked collapse " id="navbar-nav-admin-aprendizagem" aria-labelledby="navbar-nav-admin-aprendizagem">
+					<li role="presentation" ng-show="hasRoles(['ROLE_CATALOGO_ADMIN'])">
+						<a role="menuitem" tabindex="-1" ui-sref="adminCatalogo.catalogo.cursos({'codCategoria':0})" ng-click="reloadSidebar()">
+							{{'Catálogo' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-show="hasRoles(['ROLE_CATALOGO_GESTOR'])">
+						<a role="menuitem" tabindex="-1" ui-sref="gestorcatalogo.catalogo.cursos({'codCategoria':0})" ng-click="reloadSidebar()">
+							{{'Catálogo' | translate}}
+						</a>
+					</li>
+
+					<li class="role_curso_admin" role="presentation"
+						ng-show="hasRoles(['ROLE_CURSO_ADMIN','ROLE_MEUS_CURSOS_ADMIN','ROLE_CURSO_CONTEUDO','ROLE_LISTAINTERESSE_ADMIN','ROLE_LOCAL_ADMIN'])">
+						<a data-target="#sub-menu-cursos" data-toggle="collapse" data-parent=".role_curso_admin" class="trigger" href="" role="menuitem">
+							{{'Cursos' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-cursos" role="menu" aria-labelledby="role_curso_admin">
+							<li role="presentation" ng-show="hasRole('ROLE_CURSO_ADMIN')">
+								<a role="menuitem" tabindex="-1" ui-sref="adminCategoriaCurso.listagem" ng-click="reloadSidebar()">
+									{{'Categorias' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-show="hasRoles(['ROLE_CURSO_ADMIN','ROLE_MEUS_CURSOS_ADMIN','ROLE_CURSO_CONTEUDO'])">
+								<a role="menuitem" tabindex="-1" ui-sref="adminCurso.listagem" ng-click="reloadSidebar()">
+									{{'Administrar Cursos' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-show="hasRole('ROLE_LISTAINTERESSE_ADMIN')">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/curso/listainteresse')" ng-click="reloadSidebar()">
+									{{'Lista de Interesse' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-show="hasRole('ROLE_LOCAL_ADMIN')">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/local')" ng-click="reloadSidebar()">
+									{{'Local' | translate}}
+								</a>
+							</li>
+						</ul><!-- /.sub-menu -->
+					</li>
+
+					<li role="presentation" class="role_turma_admin"
+						ng-show="hasRoles(['ROLE_MONITOR','ROLE_MONITOR_ADMIN','ROLE_LMS_DESEMPENHO','ROLE_TURMA_ADMIN','ROLE_LISTAR_CURSOS_TUTOR','ROLE_INSTRUTOR','ROLE_TUTOR_TURMA','ROLE_MODERADOR','ROLE_UNIDADE_ADMIN'])">
+						<a data-target="#sub-menu-turmas" data-toggle="collapse" data-parent=".role_turma_admin" href="" role="menuitem">
+							{{'Turmas' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-turmas" role="menu" aria-labelledby="role_turma_admin">
+							<li role="presentation"
+								ng-if="hasFuncionalidade('konviva.ui.mode.turmamatricula') == 'html5'" ng-show="hasRoles(['ROLE_TURMA_ADMIN','ROLE_LISTAR_CURSOS_TUTOR','ROLE_INSTRUTOR','ROLE_TUTOR_TURMA','ROLE_MODERADOR'])">
+								<a role="menuitem" tabindex="-1" ui-sref="adminTurma.listagem" ng-if="hasRole('ROLE_TURMA_ADMIN')" ng-click="reloadSidebar()">
+									{{'Administrar Turmas' | translate}}
+								</a>
+								<a role="menuitem" tabindex="-1" ui-sref="adminTurma.listagem" ng-if="!hasRole('ROLE_TURMA_ADMIN')" ng-click="reloadSidebar()">
+									{{'Acessar Turmas' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-if="!(hasFuncionalidade('konviva.ui.mode.turmamatricula') == 'html5')" ng-show="hasRole('ROLE_TURMA_ADMIN')">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/curso/listarCursoTutor')" ng-click="reloadSidebar()">
+									{{'Administrar Turmas' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-show="hasRole('ROLE_LMS_DESEMPENHO')">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/curso/desempenho')" ng-click="reloadSidebar()">
+									{{'Desempenho' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-show="hasRoles(['ROLE_MONITOR','ROLE_MONITOR_ADMIN'])">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/curso/monitorProva')" ng-click="reloadSidebar()">
+									{{'Liberação de provas' | translate}}
+								</a>
+							</li>
+						</ul><!-- /.sub-menu -->
+					</li>
+
+					<li role="presentation"
+						ng-show="hasRoles(['ROLE_LMS_CALENDARIO_ADMIN','ROLE_PROFESSOR','ROLE_TUTOR_TURMA','ROLE_INSTRUTOR','ROLE_MODERADOR','ROLE_MONITOR'])">
+						<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/calendario')">
+							{{'Calendário' | translate}}
+						</a>
+					</li>
+
+					<!--<li role="presentation" ng-show="hasRole('ROLE_SALA_FISICA_ADMIN')">
+                        <a data-target="#sub-menu-sala-fisica" data-toggle="collapse" data-parent=".role_turma_admin" href="" role="menuitem">
+                            {{'Sala Física' | translate}}
+                            <i class="fa fa-chevron-right"></i>
+                        </a>
+                        <ul class="nav navbar-nav  nav-stacked collapse  navbar sub-menu " id="sub-menu-sala-fisica" role="menu" aria-labelledby="dropdownMenu2">
+                            <li role="presentation" ng-show="hasRole('ROLE_SALA_FISICA_ADMIN')">
+                                <a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/salaFisica')" ng-click="reloadSidebar()">
+                                    {{'Administrar Salas' | translate}}
+                                </a>
+                            </li>
+                            <li role="presentation" ng-show="hasRole('ROLE_SALA_FISICA_ADMIN')">
+                                <a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/recursoFisico')" ng-click="reloadSidebar()">
+                                    {{'Recursos Físicos' | translate}}
+                                </a>
+                            </li>
+                        </ul>&lt;!&ndash; /.sub-menu &ndash;&gt;
+                    </li>-->
+
+					<li role="presentation" class="role_menu_repositorio"  ng-show="hasRole('ROLE_MENU_REPOSITORIO')"  >
+						<a data-target="#sub-menu-repositorio" data-toggle="collapse" data-parent=".role_menu_repositorio" href="" role="menuitem">
+							{{'Repositório' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse  navbar sub-menu" id="sub-menu-repositorio" role="menu">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="adminapresentacao" ng-click="reloadSidebar()">
+									{{'Apresentação' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-show="hasRole('ROLE_CERTIFICADO_ADMIN')">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/certificado')" ng-click="reloadSidebar()">
+									{{'Certificados' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="adminrecurso" ng-click="reloadSidebar()">
+									{{'Recursos' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="adminscorm" ng-click="reloadSidebar()">
+									{{'SCORM' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="adminvideolink" ng-click="reloadSidebar()">
+									{{'Vídeo-Link' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="adminvideoupload" ng-click="reloadSidebar()">
+									{{'Vídeo-Upload' | translate}}
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<li role="presentation" ng-show="hasRole('ROLE_PILULA_ADMIN') && menuConfiguracao['enablePilula']">
+						<a  tabindex="-1" href="" role="menuitem" ui-sref="adminpilula.list" ng-click="reloadSidebar()">
+							{{'Pílulas de Conhecimento' | translate}}
+						</a>
+					</li>
+
+					<li role="presentation" ng-show="hasRole('ROLE_SOLICITACAO_MATRICULA_MENU')">
+						<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/solicitacao_matricula')" ng-click="reloadSidebar()">
+							{{'Solicitação de Matrículas' | translate}}
+						</a>
+					</li>
+
+					<li role="presentation" ng-show="hasRole('ROLE_TRILHA_MENU') && !menuConfiguracao['hideTrilhas']" ng-click="reloadSidebar()">
+						<a role="menuitem" tabindex="-1" ui-sref="admintrilha">
+							{{'Trilhas' | translate}}
+						</a>
+					</li>
+
+					<li role="presentation" ng-show="hasRole('ROLE_AVALIACAO_ADMIN')">
+						<a data-target="sub-menu-avaliacoes" data-toggle="collapse" data-parent=".role_turma_admin" href="" role="menuitem">
+							{{'Avaliações' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse  navbar sub-menu" id="sub-menu-avaliacoes" role="menu" aria-labelledby="dropdownMenu2">
+							<li role="presentation" ng-show="hasRole('ROLE_AVALIACAO_ADMIN')">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/avaliacao')" ng-click="reloadSidebar()">
+									{{'Administrar Avaliações' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-show="hasRole('ROLE_AVALIACAO_ADMIN')">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/questao')" ng-click="reloadSidebar()">
+									{{'Banco de Questões' | translate}}
+								</a>
+							</li>
+						</ul><!-- /.sub-menu -->
+					</li>
+					<li role="presentation" ng-show="hasRole('ROLE_MENU_RELATORIO')">
+						<a ng-if="false" role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/geral')" ng-click="reloadSidebar()">
+							{{'Relatórios Antigo' | translate}}
+						</a>
+						<a role="menuitem" tabindex="-1" ui-sref="adminrelatorios.listagem.padrao" ng-click="reloadSidebar()">
+							{{'Relatórios' | translate}}
+						</a>
+					</li>
+				</ul>
+			</li>
+
+		</ul>
+		<ul class="nav navbar-nav navbar-nav-admin-colaboracao"
+			ng-show="hasFuncionalidade('konviva.funcionalidade.comunidades') && hasRoles(['ROLE_GLOBAL_MENU_COLABORACAO'])">
+			<li>
+				<a href="" data-target="#sub-menu-colaboracao" data-toggle="collapse" data-parent=".navbar-nav-admin-colaboracao">
+					<span class="k-label-menu-header">{{'Colaboração' | translate}}</span>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+				</a>
+				<ul class="nav navbar-nav  nav-stacked collapse  navbar" id="sub-menu-colaboracao" >
+					<li class="role_comunidades">
+						<a data-target="#sub-menu-comunidades" data-toggle="collapse" data-parent=".role_comunidades" href="" role="menuitem">
+							<span class="k-label-menu-header">{{'Comunidades' | translate}}</span>
+							<i class="fa fa-caret-down" aria-hidden="true"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse  navbar " id="sub-menu-comunidades" role="menu" aria-labelledby="role_comunidades">
+							<li role="presentation" ng-show="hasRole('ROLE_COMUNIDADE_ADMIN')">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('gerenciaComunidade')" ng-click="reloadSidebar()">
+									{{'Gerenciar Comunidades' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-show="hasRole('ROLE_COMUNIDADE')">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('comunidade')" ng-click="reloadSidebar()">
+									{{'Listar Comunidades' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-show="hasRole('ROLE_REL_CONTEUDO_VISITADO_AVALIADO_MENU')">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('gerenciaComunidade/relatorios?id=conteudoVisitadoAvaliado')" ng-click="reloadSidebar()">
+									{{'Conteúdos Visitados e Avaliados' | translate}}
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<li role="presentation" class="role_comunidade_admin" ng-show="hasRole('ROLE_COMUNIDADE_ADMIN') && menuConfiguracao['pontuacaoAtiva']">
+						<a data-target="#sub-menu-ranking" data-toggle="collapse" data-parent=".role_comunidade_admin" href="" role="menuitem">
+							<span class="k-label-menu-header">{{'Ranking' | translate}}</span>
+							<i class="fa fa-caret-down" aria-hidden="true"></i>
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-ranking" role="menu" aria-labelledby="role_comunidade_admin">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('gerenciaComunidade/gerenciaPontuacao')" ng-click="reloadSidebar()">
+									{{'Gerenciar Pontuações' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('gerenciaComunidade/extratoPontuacao')" ng-click="reloadSidebar()">
+									{{'Extrato de Pontuações por Usuário' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-show="hasRole('ROLE_COMUNIDADE_ADMIN') && menuConfiguracao['pontuacaoAtiva']">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('gerenciaComunidade/niveisPontuacao')" ng-click="reloadSidebar()">
+									{{'Gerenciar Níveis de Pontuação' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-show="hasRole('ROLE_REL_PONTUACAO_MENU')">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('gerenciaComunidade/niveisPontuacao')" ng-click="reloadSidebar()">
+									{{'Pontuação Geral' | translate}}
+								</a>
+							</li>
+						</ul>
+					</li>
+
+					<li role="presentation" class="role_social">
+						<a data-target="#sub-menu-social" data-toggle="collapse" data-parent=".role_social" href="" role="menuitem">
+							{{'Social' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse  navbar sub-menu" id="sub-menu-social" role="menu" aria-labelledby="dropdownMenu2">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="colaboracao.minhapagina.posts" ng-click="reloadSidebar()">
+									{{'Minha página' | translate}}
+								</a>
+							</li>
+							<li role="presentation" ng-if="menuConfiguracao['pontuacaoAtiva']">
+								<a role="menuitem" tabindex="-1" ui-sref="colaboracao.ranking" ng-click="reloadSidebar()">
+									{{'Ranking' | translate}}
+								</a>
+							</li>
+							<li role="presentation"  ng-if="menuConfiguracao['pontuacaoAtiva']">
+								<a role="menuitem" tabindex="-1" ui-sref="colaboracao.extrato" ng-click="reloadSidebar()">
+									{{'Extrato de pontuação' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="colaboracao.usuarios({'listAll':1})" ng-click="reloadSidebar()">
+									{{'Usuários' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="colaboracao.quemestouseguindo" ng-click="reloadSidebar()">
+									{{'Seguindo' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="colaboracao.seguidores" ng-click="reloadSidebar()">
+									{{'Seguidores' | translate}}
+								</a>
+							</li>
+						</ul><!-- /.sub-menu -->
+					</li>
+				</ul>
+			</li>
+
+		</ul>
+		<!-- /.menu-coloboracao -->
+		<ul class="nav navbar-nav navbar-nav-gamificacao"
+			ng-show="hasFuncionalidade('konviva.funcionalidade.gamificacao') && hasRoles(['ROLE_GLOBAL_MENU_GAMIFICACAO'])">
+			<li>
+				<a href="" data-target="#sub-funcionalidade-gamificacao"  data-toggle="collapse" data-parent=".navbar-nav-gamificacao">
+					<span class="k-label-menu-header">{{'Gamificação' | translate}}</span>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+				</a>
+				<ul class="nav navbar-nav  nav-stacked collapse " id="sub-funcionalidade-gamificacao">
+					<li role="presentation" ng-show="hasRoles(['ROLE_GAMIFICACAO_GESTOR'])">
+						<a role="menuitem" ui-sref="gestorRanking.rankings.ranking" ng-click="reloadSidebar()">
+							{{'Ranking' | translate}}
+						</a>
+					</li>
+				</ul>
+			</li>
+
+		</ul>
+		<!-- competencias -->
+		<ul class="nav navbar-nav navbar-nav-competencias"
+			ng-show="hasFuncionalidade('konviva.funcionalidade.competencias') && hasRoles(['ROLE_GLOBAL_MENU_COMPETENCIAS'])">
+			<li>
+				<a href="" data-target="#sub-menu-competencias"  data-toggle="collapse" data-parent=".navbar-nav-competencias">
+					<span class="k-label-menu-header">{{'Competências' | translate}}</span>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+				</a>
+				<ul class="nav navbar-nav  nav-stacked collapse " id="sub-menu-competencias">
+					<li role="presentation" ng-show="hasRole('ROLE_AVALIACAO')">
+						<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('avaliacao')">
+							{{'Avaliação' | translate}}
+						</a>
+					</li>
+					<li role="presentation" class="role_desempenho_admin" ng-show="hasRole('ROLE_DESEMPENHO_ADMIN')">
+						<a data-target="#sub-menu-acompanhamento" data-toggle="collapse" data-parent=".role_desempenho_admin" href="" role="menuitem">
+							{{'Acompanhamento' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse   sub-menu " id="sub-menu-acompanhamento" role="menu"
+							aria-labelledby="role_desempenho_admin">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('desempenho')" ng-click="reloadSidebar()">
+									{{'Avaliações Realizadas' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('desempenho/conciliacao')" ng-click="reloadSidebar()">
+									{{'Conciliações Realizadas' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('desempenho/planos')" ng-click="reloadSidebar()">
+									{{'Planos Propostos' | translate}}
+								</a>
+							</li>
+						</ul><!-- /.sub-menu -->
+					</li>
+					<li role="presentation" ng-show="hasRole('ROLE_MAPA_COMPETENCIA')">
+						<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('mapacompetencia')" ng-click="reloadSidebar()">
+							{{'Mapa de Competências' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-show="hasRole('ROLE_COMPETENCIA')">
+						<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('competencia')" ng-click="reloadSidebar()">
+							{{'Banco de Competências' | translate}}
+						</a>
+					</li>
+					<li role="presentation" class="role_avaliacao" ng-show="hasRole('ROLE_AVALIACAO')">
+						<a data-toggle="collapse" data-target="#sub-menu-relatorios" data-parent=".role_avaliacao" href="" role="menuitem">
+							{{'Relatórios' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse sub-menu " id="sub-menu-relatorios" role="menu" aria-labelledby="dropdownMenu2">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioAvaliacao')" ng-click="reloadSidebar()">
+									{{'Avaliação' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioConciliacao')" ng-click="reloadSidebar()">
+									{{'Conciliação' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioPlanoAcao')" ng-click="reloadSidebar()">
+									{{'Planos' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioColaborador')" ng-click="reloadSidebar()">
+									{{'Por Colaborador' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioDesempenho')" ng-click="reloadSidebar()">
+									{{'Ranking' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioOrganizacional')" ng-click="reloadSidebar()">
+									{{'Organizacional' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioFuncional')" ng-click="reloadSidebar()">
+									{{'Funcional' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioIndividual')" ng-click="reloadSidebar()">
+									{{'Individual' | translate}}
+								</a>
+							</li>
+						</ul><!-- /.sub-menu -->
+					</li>
+				</ul>
+			</li>
+
+		</ul>
+		<!-- Administração -->
+		<ul class="nav navbar-nav" ng-show="hasRoles(['ROLE_GLOBAL_MENU_ADMINISTRACAO'])" >
+			<li>
+				<a href="" data-target="#sub-menu-administracao"  data-toggle="collapse" data-parent=".menu_usuarios">
+					<span class="k-label-menu-header">{{'Administração' | translate}}</span>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+				</a>
+				<ul class="nav navbar-nav  nav-stacked collapse " id="sub-menu-administracao">
+					<li role="presentation" ng-show="hasRole('ROLE_DESTAQUE_ADMIN')">
+						<a role="menuitem" tabindex="-1" ui-sref="adminDestaque.listagem" ng-click="reloadSidebar()">
+							{{'Destaques' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-show="hasRole('ROLE_FALECONOSCO_ADMIN')">
+						<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('config/faleConosco')" ng-click="reloadSidebar()">
+							{{'Fale conosco' | translate}}
+						</a>
+					</li>
+					<li role="presentation" class="role_gamificacao_admin" ng-show="hasRole('ROLE_GAMIFICACAO_ADMIN') && menuConfiguracao['isEnableGamificacao']">
+						<a data-target="#sub-menu-gamificacao" data-toggle="collapse" data-parent=".role_gamificacao_admin"  href="" role="menuitem">
+							{{'Gamificação' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse   sub-menu " id="sub-menu-gamificacao" role="menu" aria-labelledby="dropdownMenu2">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="adminBadges.listagem" ng-click="reloadSidebar()">
+									{{'Badges' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="adminMissoes.listagem" ng-click="reloadSidebar()">
+									{{'Missões' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="adminRanking.listagem" ng-click="reloadSidebar()">
+									{{'Ranking' | translate}}
+								</a>
+							</li>
+						</ul><!-- /.sub-menu -->
+					</li>
+
+					<li role="presentation" class="role_mensagens_admin" ng-show="hasRole('ROLE_MENSAGENS_ADMIN')">
+						<a data-target="#sub-menu-mensagens-automaticas" data-toggle="collapse" data-parent=".role_mensagens_admin" href="" role="menuitem">
+							{{'Mensagens Automáticas' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-mensagens-automaticas" role="menu" aria-labelledby="dropdownMenu2">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('mensagemAutomatica')" ng-click="reloadSidebar()">
+									{{'Notificações do Sistema' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('alerta')" ng-click="reloadSidebar()">
+									{{'Alertas Configuráveis' | translate}}
+								</a>
+							</li>
+						</ul><!-- /.sub-menu -->
+					</li>
+					<li role="presentation" ng-show="hasRole('ROLE_KONVIVA_CONFIG_LAYOUT')">
+						<a role="menuitem" tabindex="-1"  ui-sref="adminConfiguradorGeral.edit" ng-click="reloadSidebar()">
+							{{'Configurador Geral' | translate}}
+						</a>
+					</li>
+
+					<li role="presentation" class="role_konviva_config_layout" ng-show="hasRole('ROLE_KONVIVA_CONFIG_LAYOUT')">
+						<a data-target="#sub-menu-configurador-layout" data-toggle="collapse" data-parent=".role_konviva_config_layout"  href="" role="menuitem">
+							{{'Configurador de Layout' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-configurador-layout" role="menu" aria-labelledby="dropdownMenu2">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('config/layout')" ng-click="reloadSidebar()">
+									{{'Configurações Gerais' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ui-sref="adminConfigPortalExterno.edit" ng-click="reloadSidebar()">
+									{{'Portal Externo' | translate}}
+								</a>
+							</li>
+						</ul><!-- /.sub-menu -->
+					</li>
+					<li role="presentation" ng-if="isSuporte">
+						<a role="menuitem" tabindex="-1"  ui-sref="adminServerSideScript.listagem" ng-click="reloadSidebar()">
+							{{'Server Side Script' | translate}}
+						</a>
+					</li>
+
+					<li role="presentation" class="role_ecommerce_admin" ng-show="hasFuncionalidade('konviva.funcionalidade.ecommerce') && hasRole('ROLE_ECOMMERCE_ADMIN')">
+						<a data-target="#sub-menu-gestao-pagamentos" data-toggle="collapse" data-parent=".role_ecommerce_admin" href="" role="menuitem">
+							{{'Gestão Pagamentos' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul id="sub-menu-gestao-pagamentos" class="nav navbar-nav  nav-stacked collapse sub-menu" role="menu" aria-labelledby="role_ecommerce_admin">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('pagseguro/conta')" ng-click="reloadSidebar()">
+									{{'Configurar Meios de Pagamento' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('ecommerce/gestao')" ng-click="reloadSidebar()">
+									{{'Acompanhar Pedidos' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('ecommerce/administrarDescontos')" ng-click="reloadSidebar()">
+									{{'Administrar Descontos' | translate}}
+								</a>
+							</li>
+						</ul><!-- /.sub-menu -->
+					</li>
+					<li role="presentation" class="role_ecommerce_admin" ng-show="hasRole('ROLE_ECOMMERCE_ADMIN')">
+						<a data-target="#sub-menu-portal" data-toggle="collapse" data-parent=".role_ecommerce_admin"  href="" role="menuitem">
+							{{'Portal' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-portal" role="menu" aria-labelledby="dropdownMenu2">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('ecommerce/pagina')" ng-click="reloadSidebar()">
+									{{'Administrar Páginas' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('ecommerce/config')" ng-click="reloadSidebar()">
+									{{'Configurador Geral' | translate}}
+								</a>
+							</li>
+						</ul><!-- /.sub-menu -->
+					</li>
+
+					<li role="presentation" ng-show="hasRole('ROLE_KONVIVA_CONFIG_PROVEDORSINCRONO') && hasFuncionalidade('konviva.funcionalidade.cursos')">
+						<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('config/provedor_sincrono')" ng-click="reloadSidebar()">
+							{{'Provedores Síncronos' | translate}}
+						</a>
+					</li>
+
+					<li role="presentation" ng-show="hasRole('ROLE_REGRAS_ACESSO_ADMIN')">
+						<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('config/regrasAcesso')" ng-click="reloadSidebar()">
+							{{'Regras de acesso' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-show="hasRole('ROLE_CONFIG_SSO')">
+						<a role="menuitem" tabindex="-1" ui-sref="adminConfigSso.edit" ng-click="reloadSidebar()">
+							{{'Single Sign-On' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-show="hasRole('ROLE_RELATORIO_LOG')">
+						<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/log')" ng-click="reloadSidebar()">
+							{{'Relatórios de log' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-show="hasRole('ROLE_MOTOR_RELATORIO')">
+						<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/gerenciador')" ng-click="reloadSidebar()">
+							{{'Gerar Relatórios' | translate}}
+						</a>
+					</li>
+
+					<li role="presentation" class="role_central_importacao" ng-show="hasRole('ROLE_CENTRAL_IMPORTACAO')">
+						<a data-target="#sub-menu-central" data-toggle="collapse" data-parent=".role_turma_admin"  href="" role="menuitem">
+							{{'Central de Importações' | translate}}
+							<i class="fa fa-chevron-right"></i>
+						</a>
+						<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-central" role="menu" aria-labelledby="role_central_importacao">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('importacao')" ng-click="reloadSidebar()">
+									{{'Importações via interface' | translate}}
+								</a>
+							</li>
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('importacao/log')" ng-click="reloadSidebar()">
+									{{'Histórico de importações' | translate}}
+								</a>
+							</li>
+						</ul><!-- /.sub-menu -->
+					</li>
+					<li role="presentation" ng-show="hasRole('ROLE_CONFIG_NOMENCLATURA')">
+						<a role="menuitem" tabindex="-1" ui-sref="adminConfigNomenclatura.edit" ng-click="reloadSidebar()">
+							{{'Configurar Nomenclatura' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-if="isSuporte">
+						<a role="menuitem" tabindex="-1" ui-sref="adminConfigWebhook.list" ng-click="reloadSidebar()">
+							{{'Webhooks' | translate}}
+						</a>
+					</li>
+					<li role="presentation" ng-if="isSuporte">
+						<a role="menuitem" tabindex="-1" ui-sref="adminConfigAcoesAgendadas.list" ng-click="reloadSidebar()">
+							{{'Ações Agendadas' | translate}}
+						</a>
+					</li>
+				</ul>
+			</li>
+
+		</ul>
+	</div>
+</div>

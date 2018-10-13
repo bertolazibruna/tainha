@@ -1,0 +1,62 @@
+﻿<!--Menu Gamificação-->
+<ul class="nav navbar-nav navbar-user tema15-menu-dropdown hidden-xs" ng-controller="PortalGamificacaoController" ng-if="hasFuncionalidade('konviva.funcionalidade.gamificacao') && (hasRole('ROLE_GAMIFICACAO_BADGES') || hasRole('ROLE_GAMIFICACAO_RANKING'))">
+	<li nclass="dropdown">
+		<a href=""  class="dropdown-toggle"  data-toggle="dropdown">
+			<i class="fa fa-trophy" aria-hidden="true"></i>
+			<span class="badge konviva-back-red konviva-font10 konviva-color-fff konviva-text-bold pullright konviva-badge-header" ng-if="extratoPontosDetail.totalPontos > 0">
+				{{extratoPontosDetail.totalPontos}}
+			</span>
+		</a>
+		<ul class="dropdown-menu user-dropdown-menu">
+			<i class="fa fa-chevron-up"></i>
+			<i class="fa fa-spinner fa-spin fa-large konviva-font14" ng-show="extratoPontosDetailTracker.active()"></i>
+			<li>
+				<a  ui-sref="gamificacao.achievement.extrato">
+					<i class="fa fa-file" style="margin-left: 15px"></i>
+					<span>{{ 'Ver extrato' | translate }}</span>
+				</a>
+			</li>
+			<li>
+				<a ui-sref="gamificacao.rankings.ranking"  ng-click="reloadSidebar()">
+					<i class="fa fa-line-chart" style="margin-left: 15px"></i>
+					<span>{{ 'Ver Ranking' | translate }}</span>
+				</a>
+			</li>
+			<li>
+				<a ng-if="hasFuncionalidade('konviva.funcionalidade.gamificacao.store')" ng-class="{'active': gamificacaoMenu == 'store','konviva-menu-vertical-colaboracao-item': gamificacaoMenu == 'store'}" ng-if="hasRole('ROLE_GAMIFICACAO_BADGES')" ui-sref="gamificacaoStore.catalogo" ng-click="reloadSidebar()" style="padding: 0 30px">
+					<i class="fa fa-shopping-basket" aria-hidden="true"></i>
+					<span>{{ 'Loja' | translate }}</span>
+				</a>
+			</li>
+			<li>
+				<a ng-if="hasFuncionalidade('konviva.funcionalidade.gamificacao.store')" ng-class="{'active': gamificacaoMenu == 'pedidos','konviva-menu-vertical-colaboracao-item': gamificacaoMenu == 'pedidos'}" ng-if="hasRole('ROLE_GAMIFICACAO_BADGES')" ui-sref="gamificacaoStore.resgates.pedidos" ng-click="reloadSidebar()" style="padding: 0 30px;">
+					<i class="fa fa-shopping-bag" aria-hidden="true"></i>
+					<span>{{ 'Meus Resgates' | translate }}</span>
+				</a>
+			</li>
+			<li class="panel-body" ng-if="badges && badges.length>0">
+				<div class="col-md-12 col-sm-12 col-xs-12">
+					<h2 class="pull-left">{{ 'Badges' | translate }}</h2>
+					<a class="pull-right"  style="width: initial" ui-sref="gamificacao.achievement.badges">{{ 'Ver todos' | translate }}</a>
+					<div class="box-gamificacao-badges" ng-repeat="badge in badges | limitTo:4">
+						<div class="col-md-3 box-gamificacao-badges-img">
+							<img alt="{{badge.nome}}" title="{{badge.nome}}"  ng-src="{{ restPrefix}}/action/rest/base/foto/storage?idFile={{badge.imagemId}}&w=130&h=130&c=80">
+						</div>
+					</div>
+				</div>
+			</li>
+
+			<div class="box-gamificacao-total-de-pontos">
+				<div class="pull-left">
+					<i class="fa fa-trophy"></i>
+				</div>
+				<div class="pull-right">
+					<h3>{{ 'Total de pontos' | translate }}</h3>
+					<h4><span>{{extratoPontosDetail.totalPontos}}</span></h4>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</ul>
+		<div class="clearfix"></div>
+	</li>
+</ul>

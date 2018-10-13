@@ -1,0 +1,476 @@
+<div ng-controller="PortalConfigUnidadeController">
+	<div ng-if="showPortal" ng-controller="ControllerTema" class="tema-padrao">
+		<div class="clearfix"></div>
+		<!--Banner Home Aluno-->
+		<section>
+			<div class="clearfix"></div>
+			<div class="k-banner-home" ng-if="urlBanner">
+				<!--<img class="img-responsive" ng-src="{{ urlBanner }}">-->
+				<span class="konviva-font12 k-banner-aluno" ng-bind-html="configUnidade.banner"></span>
+			</div>
+		</section>
+		<!--/Banner Home Aluno-->
+		<!-- pilulas full page-->
+		<section class="box-pilula"  ng-if="hasFuncionalidade('konviva.aprendizagem.enable_pilula')"  id="pilula" ng-controller="PilulaPortalCustomController">
+			<div class="clearfix"></div>
+			<div class="conteudo-tema">
+				<div class="titulo-tema quebra-linha-titulo" ui-sref="aprendizagem.minhaspilulas.pendentes" style="cursor: pointer">
+					<h2 class="pull-left">
+						<i class="icon-pill-pilula" style="float: left;margin-top: 10px" aria-hidden="true"></i><a>{{ 'Pílulas' | translate }}</a>
+					</h2>
+					<h2 ui-sref="aprendizagem.minhaspilulas.pendentes" class="tema-ver-todos pull-right" style="font-size: 1.1rem;" ng-if="pilulas && pilulas > 2">
+							<a href="" style="padding: 10px 0;">{{ 'Ver todos' | translate }}</a>
+					</h2>
+				</div>
+				<article ng-if="pilula" class="col-md-6" ng-repeat="pilula in pilulas | limitTo:2">
+					<div ng-class="{'active':pilula}" ng-click="pilula && playPilula(pilula.id)">
+						<div class="pilula-image">
+							<img class="img-responsive" ng-src="{{ getUrlDownload(pilula.publicacao.imagem) }}?w=500&amp;h=500" ng-if="pilula.publicacao.imagem != null">
+							<img class="img-responsive pilula1-fixo" ng-if="pilula.publicacao != null && pilula.publicacao.imagem == null">
+							<img class="img-responsive pilula2-fixo" ng-if="pilula.publicacao == null && pilula.publicacao.imagem == null">
+						</div>
+						<div class="text-pilula">
+							<span class="titulo-pilula">{{ pilula.publicacao.nome }}</span>
+							<span ng-bind-html="pilula.publicacao.descricao"></span>
+							<a class="btn-acessar-pilula btn btn-primary">{{ 'Acessar' | translate }}</a>
+						</div>
+					</div>
+				</article>
+				<div class="clearfix"></div>
+				<div  ng-if="!pilula" ui-sref="aprendizagem.minhaspilulas.pendentes" class=" box-sem-pilula"  style="cursor: pointer">
+					<h4>{{ 'Sem pílula cadastrada no momento.' | translate }}</h4>
+				</div>
+			</div>
+		</section>
+		<!-- /pilulas full page-->
+		<!--Container-->
+		<div ng-class="{'container-tema' : hasRole('ROLE_DASHBOARD_ALUNO')}">
+			<div class="row">
+				<section  class="coluna-aprendizagem" ng-class="{ 'col-md-5' : configUnidade.mostraDestaques, 'col-md-12' : !configUnidade.mostraDestaques}">
+					<div class="clearfix">
+						<!-- meus cursos -->
+						<section id="cursos" class="cor-box-tema" ng-if="configUnidade.mostraMeusCursos" style="margin-top: 9px;  border-bottom: 1px solid rgba(102,102,102, 0.2);">
+							<!-- cards cursos -->
+							<div id="cursos-home"  ng-class="{'active' : abaAtiva=='cursos'}" ng-controller="PortalUltimosCursosController" >
+								<div class="row">
+									<div class="titulo-tema">
+										<h2 class="pull-left">
+											<i class="fa fa-graduation-cap" aria-hidden="true"></i>
+											<a ui-sref="aprendizagem.minhapagina.dashboard">{{ 'Meus Cursos' | translate }}</a>
+										</h2>
+										<h2 ui-sref="aprendizagem.minhapagina.dashboard" class="tema-ver-todos pull-right" style="font-size: 1.1rem;" ng-if="ultimasmatriculas && ultimasmatriculas.length > 2">
+											<a>
+												{{ 'Ver todos' | translate }}
+											</a>
+										</h2>
+									</div>
+									<section>
+										<div ng-if="ultimasmatriculas">
+											<article class="col-xs-12 col-sm-6 col-md-6 " ng-class="{'active' : $index == 0}" ng-repeat="matricula in ultimasmatriculas | limitTo:2" ng-init="init()">
+												<div class="card-curso-e-trilha box-tema">
+													<div class="icone-info">
+														<figure class="card-imagem-capa">
+															<img itemprop="image" ng-src="{{getUrlImg(matricula.turma.curso.id,410,230)}}" alt="{{ matricula.turma.curso.nome }}">
+														</figure>
+													</div>
+													<div class="card-curso-e-trilha-conteudo">
+														<div class="card-titulo titulo-tema">
+																<h2 ui-sref="aula.saladeaula.conteudo({idmatricula: matricula.id})">{{ matricula.turma.curso.nome }}</h2>
+														</div>
+														<!--Info Cursos-->
+														<div class="info-curos-tema-15" style="margin-bottom: 50px">
+															<!--Termina em-->
+															<div class="termina-em-tema15" style="float: left">
+																<div ng-class="{'k-concluir-curso': matricula.totalDiasFim<3}">
+																	<div ng-if="matricula.dataConclusao">
+																		<div class="konviva-font10 konviva-color-666">
+																			{{ 'Vencimento' | translate }}:
+																		</div>
+																		<div class="konviva-text-bold konviva-font11" style="color: #e92436">
+																			{{ matricula.dataConclusao | date: 'dd/MM/yyyy' }}
+																		</div>
+																	</div>
+																	<div ng-if="matricula.dataConclusao == null"
+																		 class="konviva-text-bold konviva-font12">
+																		{{ 'Não iniciado' | translate }}
+																	</div>
+																</div>
+															</div>
+															<!--/Termina em-->
+															<!--Andamento-->
+															<div class="andamento-tema15" ng-if="configUnidade && configUnidade.exibirAndamentoCurso">
+																<div>
+																	<div class="konviva-font10 konviva-color-666">
+																		{{ 'Andamento' | translate }}:
+																	</div>
+																	<div class="Teronviva-text-bold konviva-font11">
+																		{{ matricula.andamento | truncatenumber:2 }}%
+																	</div>
+																</div>
+															</div>
+															<!--/Andamento-->
+														</div>
+														<!--/Info Cursos-->
+														<section class="k-content-info-cursos-portal konviva-padding-5">
+															<div class="k-max-width-list-curso">
+																<div class="k-curso-info">
+																	<p class="pull-right"
+																	   ng-if="!matricula.isIniciada"
+																	   style="font-weight: bold;">
+																		{{'Aguardando Início...' | translate}}
+																	</p>
+																	<p class="pull-right"
+																	   ng-if="matricula.isIniciada && matricula.isAguardandoLiberacao"
+																	   style="font-weight: bold;">
+																		{{'Aguardando Liberação' |translate }}
+																	</p>
+																	<p class="pull-right"
+																	   style="font-weight: bold;"
+																	   ng-if="matricula.isIniciada && matricula.turma.curso.modalidade == 'PROVA' && (!matricula.isAguardandoLiberacao) && (!matricula.idProva)">
+																		{{ 'Prova indisponível' |translate }}
+																	</p>
+																	<p ng-if="false">
+																		<u>{{ 'Turma' | translate }}</u>:
+																		{{matricula.turma.nome}}
+																	</p>
+																	<p ng-if="false">
+																		<span>{{ 'Modalidade' | translate }}:</span>
+																		{{matricula.turma.curso.modalidade | translate}}
+																	</p>
+																	<div ng-if="false">
+																		<p ng-if="matricula.turma.curso.categoriaCurso"
+																		   class="konviva-font11">
+																			{{ 'Categoria' | translate}}:
+																			{{ matricula.turma.curso.categoriaCurso.nomeCategoria}}
+																		</p>
+																		<p class="konviva-font11"
+																		   ng-if="matricula.turma.curso.categoriaCurso && matricula.turma.curso.categoriaCurso.nomeUnidade">
+																			<span>{{ 'Unidade' | translate}}:</span>
+																			{{matricula.turma.curso.categoriaCurso.nomeUnidade}}
+																		</p>
+																	</div>
+																</div>
+															</div>
+														</section>
+														<div>
+															<div class="btn-group" role="group">
+																<a class="btn btn-primary btn-block"
+																   ui-sref="aula.saladeaula.conteudo({idmatricula: matricula.id})"
+																   ng-if="((matricula.isIniciada  ) && (matricula.turma.curso .modalidade != 'PROVA' || (matricula.turma.curso.modalidade== 'PROVA' && (!matricula.isAguardandoLiberacao) && matricula.idProva)))">
+																	<span class="k-arrow-acao-list">{{ 'Estudar' | translate}}</span>
+																</a>
+																<a class="btn btn-primary btn-block"
+																   ng-if="!matricula.isIniciada && matricula.turma.permiteAcessoPreTurma"
+																   ui-sref="aprendizagem.infosgerais({idmatricula: matricula.id, idcurso: matricula.turma.curso.id})">
+																	<span class="k-arrow-acao-list">{{ 'Acessar' | translate}}</span>
+																</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</article>
+										</div>
+									</section>
+									<!-- Nao esta matriculado - sem curso -->
+									<section ng-if="ultimasmatriculas && (!ultimasmatriculas.length)">
+										<!-- card 01 | nao matriculado -->
+										<article class="col-xs-12 col-sm-12 col-md-12 nao-matriculado-mensagem">
+											<div>
+												<div class="card-curso-e-trilha-conteudo" ui-sref="aprendizagem.catalogo.cursos({'codCategoria':0})">
+													<div class="titulo-tema">
+														<h2 ng-if="configUnidade.mostraCatalogo">
+															{{ 'Você não está matriculado em nenhum curso.' | translate }}
+															<span ui-sref="aprendizagem.minhapagina.dashboard">Clique aqui</span>{{ ' para acessar o catálogo de cursos.' | translate }}
+														</h2>
+														<h2 ng-if="!configUnidade.mostraCatalogo">
+															{{ 'Você não está matriculado em nenhum curso.' | translate }}
+														</h2>
+														<div class="card-categoria"></div>
+													</div>
+												</div>
+											</div>
+										</article>
+									</section>
+									<!-- /Nao esta matriculado -->
+								</div>
+							</div>
+						</section>
+						<!-- /meus cursos -->
+						<!-- Trilha -->
+						<section id="trilhas"   class="cor-box-tema" ng-if="configUnidade.mostraTrilhas" style="margin-bottom: 15px">
+							<div ng-controller="PortalUltimasTrilhasController">
+								<div class="row">
+									<div class="titulo-tema">
+										<h2 class="pull-left">
+											<i class="fa fa-map-marker" aria-hidden="true"></i>
+											<a href="" ui-sref="aprendizagem.trilhalista">{{ 'Trilhas' | translate }}</a>
+										</h2>
+										<h2 ui-sref="aprendizagem.trilhalista" class="tema-ver-todos pull-right" style="font-size: 1.1rem;" ng-if="ultimastrilhas && ultimastrilhas.length > 2">
+											<a>{{ 'Ver todos' | translate }}</a>
+										</h2>
+									</div>
+									<!--Card Trilha-->
+									<section class="trilha-com-cursos" ng-if="ultimastrilhas">
+										<article class="col-xs-12 col-sm-6 col-md-6" ng-repeat="trilha in ultimastrilhas | limitTo:2 "  ng-init="init()">
+											<div class="card-curso-e-trilha box-tema">
+												<figure class="card-imagem-capa">
+													<img itemprop="image" ng-src="{{getUrlImgTrilha(trilha.id, 410,230)}}" alt="{{ trilha.nome }}">
+												</figure>
+												<div class="card-curso-e-trilha-conteudo">
+													<div class="card-titulo titulo-tema">
+														<h2 ui-sref="aprendizagem.trilha({idtrilha: trilha.id})">{{ trilha.nome | limitTo:66 }}</h2>
+													</div>
+													<!--Info Cursos-->
+													<div class="info-curos-tema-15" style="margin-bottom: 50px">
+														<!--Termina em-->
+														<div class="termina-em-tema15" style="float: left">
+															<div ng-class="{'k-concluir-curso': matricula.totalDiasFim<3}">
+																<div class="konviva-font10 konviva-color-666">
+																	{{ 'Vencimento' | translate}}:
+																</div>
+																<div class="konviva-text-bold konviva-font11" ng-if="!trilha.validade" style="color: #e92436">
+																	{{ 'Não há' | translate }}
+																</div>
+																<div class="konviva-text-bold konviva-font11" ng-if="trilha.validade">
+																	<div ng-if="trilha.vencida" style="color: #e92436">
+																		{{trilha.validade | date:'dd/MM/yyyy' }}
+																	</div>
+																	<div ng-if="!trilha.vencida" style="color: #7d0002">
+																		{{trilha.validade | date:'dd/MM/yyyy' }}
+																	</div>
+																</div>
+															</div>
+														</div>
+														<!--Andamento-->
+														<div class="andamento-tema15" ng-if="configUnidade && configUnidade.exibirAndamentoTrilha">
+															<div>
+																<div class="konviva-font10 konviva-color-666">
+																	{{ 'Andamento' | translate }}:
+																</div>
+																<div class="konviva-text-bold konviva-font11">
+																	{{ (trilha.andamento < 100) ? (trilha.andamento |truncatenumber:2) : trilha.andamento}}%
+																</div>
+															</div>
+														</div>
+													</div>
+													<!--/Info Cursos-->
+													<div>
+														<a ui-sref="aprendizagem.trilha({idtrilha: trilha.id})" class="btn btn-primary btn-block">{{ 'Estudar' | translate }}</a>
+													</div>
+												</div>
+											</div>
+										</article>
+									</section>
+									<!--Sem trilhas-->
+									<section ng-if="ultimastrilhas && (!ultimastrilhas.length)">
+										<!-- card 01 | nao matriculado -->
+										<article class="col-xs-12 col-sm-12 col-md-12 nao-matriculado-mensagem-trilhas">
+											<div>
+												<div class="card-curso-e-trilha-conteudo">
+													<div class="titulo-tema">
+														<h2>
+															{{ 'Estamos desenvolvendo este conteúdo especialmente para você. Aguarde!' | translate }}
+														</h2>
+														<div class="card-categoria"></div>
+													</div>
+												</div>
+											</div>
+										</article>
+									</section>
+								</div>
+							</div>
+						</section>
+						<!-- /trilha -->
+						<!--Biblioteca-->
+						<section  ng-if="configUnidade.mostraPost">
+							<div class="clearfix">
+								<section class="box-biblioteca">
+									<div class="titulo-tema">
+										<h2 class="pull-left">
+											<i class="fa fa-book" aria-hidden="true"></i>
+											<a href="" ui-sref="biblioteca.categorias({ })">{{ 'Biblioteca' | translate }}</a>
+										</h2>
+										<h2 ui-sref="biblioteca.categorias({'onlyMyFiles':null,'cid':null})" class="tema-ver-todos pull-right" ng-if="publicacaoBibliotecaGeral && publicacaoBibliotecaGeral.length > 4">
+											<a style="padding-top: 10px;">
+												{{ 'Ver todos' | translate }}
+											</a>
+										</h2>
+									</div>
+									<div class="row">
+										<div class="card-biblioteca-arquivos">
+											<div class="col-xs-6 col-md-6 col-lg-6" ng-class="{'active' : $index == 0}"
+												 ng-repeat="publicacaoBibliotecaGeral in publicacaoBibliotecaGeralList | limitTo:4">
+												<div class=" biblioteca-arquivos" ui-sref="biblioteca.detalhes({'idPublicacao':publicacaoBibliotecaGeral.id})" style="cursor: pointer">
+													<div class="icon-biblioteca-sidebar btn-primary">
+														<i class="fa" ng-class="getIconeBiblioteca(publicacaoBibliotecaGeral)"></i>
+													</div>
+													<div ng-if="publicacaoBibliotecaGeral!=null">
+														<div class="biblioteca-text-info">
+															<div class="label-card">
+																<span>{{ 'Publicado em' | translate }}</span>
+															</div>
+															<div class="label-card">
+												<span class="info-card" style="font-size: 1.15rem">
+													{{ publicacaoBibliotecaGeral.datePublish | formatdate:({ format: dataHoraPattern, fromLimit: 259200, empty: '-'}) }}
+												</span>
+															</div>
+														</div>
+														<h4>{{publicacaoBibliotecaGeral.title}}</h4>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="clearfix"></div>
+									<div class="box-biblioteca-sem-conteudo titulo-tema" ng-if="(!publicacaoBibliotecaGeralList.length) && (!bibliotecaTracker.active())">
+										<h2>{{ 'Ainda não há arquivos na sua biblioteca.' | translate }}</h2>
+									</div>
+								</section>
+								<!-- /biblioteca -->
+							</div>
+						</section>
+					</div>
+				</section>
+				<!-- destaques -->
+				<section  class="col-xs-12 col-sm-12 col-md-7 box-destaques-e-colaboracao" ng-class="{'line-divisor' : total > 0}">
+					<article ng-controller="PortalDestaquesController" ng-if="configUnidade.mostraDestaques" ng-class="{'line-divisor-bottom' : !configUnidade.mostraPost}">
+						<div class="titulo-tema">
+							<h2 class="pull-left" style="margin-top: 31px;margin-left: 0;">
+								<i class="fa fa-star" aria-hidden="true"></i>
+								<a href="" ui-sref="destaques" role="button">{{ 'Destaques' | translate }}</a>
+							</h2>
+							<h2 ui-sref="destaques" class="tema-ver-todos pull-right" style="margin-top: 44px;" ng-if="destaques && destaques.length > 1">
+								<a style="line-height: 0;">
+									{{ 'Ver todos' | translate }}
+								</a>
+							</h2>
+						</div>
+						<div ng-if="ultimosdestaquesTracker.active()">
+							<span class="konviva-font18 center-block text-center">
+								<i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true"></i>
+							</span>
+						</div>
+						<div class="box-destaques-sem-conteudo" ng-show="total == 0" style="border: 1px solid #e1e1e1;height: 710px;margin-top: 3px;">
+							<div class="titulo-tema">
+								<h2>{{ 'Nenhum destaque publicado.' | translate }}</h2>
+								<div class="card-categoria"></div>
+							</div>
+						</div>
+						<div>
+							<div id="destaque-slides" class="carousel slide" ng-if="destaques.length > 0" data-interval="5000" data-ride="carousel" ng-show="total => 0">
+								<!-- Wrapper for slides -->
+								<ul class="tema-lista-destaques carousel-inner" role="listbox">
+									<li class="konviva-font18 center-block text-center" ng-if="destaquesTracker.active() || totalDestaquesTracker.active()">
+										<i class="fa fa-spinner fa-spin fa-large"></i>
+									</li>
+									<li class="item " ng-class="{'active' : $index == 0}" ng-repeat="destaque in destaques | limitTo:10">
+										<a href="" ng-click="openDestaque(destaque.id)" role="button">
+											<time>{{ destaque.dataPublicacao | date: 'dd/MM/yyyy HH:mm:ss' }}</time>
+											<h4>{{ destaque.titulo }}</h4>
+											<p ng-bind-html="getHtml(destaque.textoResumido)"></p>
+										</a>
+									</li>
+								</ul>
+								<!-- Controls -->
+								<div class="pull-right box-btn" ng-if="destaques.length > 1">
+									<div class="btn-group">
+										<a class="btn btn-primary" href="#destaque-slides" role="button" data-slide="prev">
+											<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+											<span >{{'Anterior' | translate}}</span>
+										</a>
+										<a class="btn btn-primary" href="#destaque-slides" role="button" data-slide="next">
+											<span >{{ 'Próximo' | translate }}</span>
+											<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+										</a>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</article>
+					<!-- Posts -->
+					<article class="box-post" ng-if="configUnidade.mostraPost"  ng-controller="PortalPostsController">
+                        <div ng-controller="PostsController">
+                            <div class="titulo-tema">
+                                <h2 class="pull-left">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <a href="" ui-sref="posts" role="button">{{ 'Posts' | translate }}</a>
+                                </h2>
+                                <h2 ui-sref="posts" class="tema-ver-todos pull-right" ng-if="posts && posts.length > 1">
+                                    <a>
+                                        {{ 'Ver todos' | translate }}
+                                    </a>
+                                </h2>
+                            </div>
+                            <div id="posts-home" ng-class="{'active' : abaAtiva=='posts'}">
+                                <div>
+                                    <h2 class="text-center sem-post" ng-if="posts && posts.length==0">
+                                        {{ 'Não existe post publicado.' | translate }}
+                                    </h2>
+                                    <div class="clearfix"></div>
+                                    <div ng-init="inicialize(false, true)">
+                                        <div  ng-include="'colaboracao/views/include_posts.tpl.html'" ></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</article>
+					<!-- /Posts -->
+				</section>
+				<!-- /destaques -->
+				<div class="clearfix"></div>
+			</div> <!-- /row -->
+		</div>
+		<!-- /container -->
+		<!-- biblioteca -->
+		<section  ng-if="!configUnidade.mostraPost" class="container-biblioteca">
+			<div class="clearfix">
+				<section class="box-biblioteca">
+					<div class="titulo-tema">
+						<h2 class="pull-left">
+							<i class="fa fa-book" aria-hidden="true"></i>
+							<a href="" ui-sref="biblioteca.categorias({ })">{{ 'Biblioteca' | translate }}</a>
+						</h2>
+						<h2 ui-sref="biblioteca.categorias({'onlyMyFiles':null,'cid':null})" class="tema-ver-todos pull-right" ng-if="publicacaoBibliotecaGeral && publicacaoBibliotecaGeral.length > 6">
+							<a style="padding-top: 10px;">
+								{{ 'Ver todos' | translate }}
+							</a>
+						</h2>
+					</div>
+					<div class="row">
+						<div class="card-biblioteca-arquivos">
+							<div class="col-xs-6 col-md-2 col-lg-2" ng-class="{'active' : $index == 0}"
+								 ng-repeat="publicacaoBibliotecaGeral in publicacaoBibliotecaGeralList | limitTo:6 ">
+								<div class=" biblioteca-arquivos" ui-sref="biblioteca.detalhes({'idPublicacao':publicacaoBibliotecaGeral.id})" style="cursor: pointer">
+									<div class="icon-biblioteca-sidebar btn-primary">
+										<i class="fa"  ng-class="getIconeBiblioteca(publicacaoBibliotecaGeral)"></i>
+									</div>
+									<div ng-if="publicacaoBibliotecaGeral!=null">
+										<div class="biblioteca-text-info">
+											<div class="label-card">
+												<span>{{ 'Publicado em' | translate }}</span>
+											</div>
+											<div class="label-card">
+												<span class="info-card" style="font-size: 1.15rem">
+													{{ publicacaoBibliotecaGeral.datePublish | formatdate:({ format: dataHoraPattern, fromLimit: 259200, empty: '-'}) }}
+												</span>
+											</div>
+										</div>
+										<h4>{{publicacaoBibliotecaGeral.title}}</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="box-biblioteca-sem-conteudo titulo-tema" ng-if="(!publicacaoBibliotecaGeralList.length) && (!bibliotecaTracker.active())">
+						<h2>{{ 'Ainda não há arquivos na sua biblioteca.' | translate }}</h2>
+					</div>
+				</section>
+				<!-- /biblioteca -->
+			</div>
+		</section>
+	</div>
+	<!-- /tema-padrao -->
+</div>
+<!-- /PortalConfigUnidadeController -->

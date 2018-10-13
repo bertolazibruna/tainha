@@ -1,0 +1,229 @@
+<div infinite-scroll="carregarMaisPosts()" infinite-scroll-distance="0">
+    <article class="media konviva-media konviva-divisor-post" ng-repeat="post in posts">
+        <header class="row">
+            <div ng-if="post.exibirAutor" >
+                <div class="col-md-1" >
+                    <a href="" ui-sref="colaboracao.paginausuario.paginausuariopost({idusuario: post.idUsuarioKonviva})">
+                        <img ng-src="{{ restPrefix }}/action/foto_model_usuario?id={{ post.idUsuario }}&w=40&h=40&c=60" class="media-object img-circle"
+                             style="width: 40px; height: 40px;"/>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <time class="konviva-font10 konviva-color-999">{{ post.datePost | formatdate:'L' }} {{ post.datePost | formatdate:'HH:mm:ss' }}</time>
+                    <h4 ng-if="post.exibirAutor">
+                        <a href="" ui-sref="colaboracao.paginausuario.paginausuariopost({idusuario: post.idUsuarioKonviva})" class="konviva-font14">{{ post.nomeUsuario }}</a>
+                    </h4>
+                </div>
+            </div>
+             <div class="col-md-8" ng-if="!post.exibirAutor" >
+                 <time class="konviva-font10 konviva-color-999">{{ post.datePost | formatdate:'L' }} {{ post.datePost | formatdate:'HH:mm:ss' }}</time>
+                 <h4 ng-if="post.exibirAutor">
+                     <a href="" ui-sref="colaboracao.paginausuario.paginausuariopost({idusuario: post.idUsuarioKonviva})" class="konviva-font14">{{ post.nomeUsuario }}</a>
+                 </h4>
+            </div>
+
+            <div class="col-md-6 pull-right">
+                <ul class="list-inline pull-right">
+                    <li>
+                        <div class="rating-art konviva-color-ccc">
+                            <span ng-class="{ 'estrela-full' : post.minhaPontuacao && post.minhaPontuacao >= 5 }" ng-click="votarPost(post, 5.0)">
+                                <i class="fa fa-star"></i>
+                            </span>
+                            <span ng-class="{ 'estrela-full' : post.minhaPontuacao && post.minhaPontuacao >= 4 }" ng-click="votarPost(post, 4.0)">
+                                <i class="fa fa-star"></i>
+                            </span>
+                            <span ng-class="{ 'estrela-full' : post.minhaPontuacao && post.minhaPontuacao >= 3 }" ng-click="votarPost(post, 3.0)">
+                                <i class="fa fa-star"></i>
+                            </span>
+                            <span ng-class="{ 'estrela-full' : post.minhaPontuacao && post.minhaPontuacao >= 2 }" ng-click="votarPost(post, 2.0)">
+                                <i class="fa fa-star"></i>
+                            </span>
+                            <span ng-class="{ 'estrela-full' : post.minhaPontuacao && post.minhaPontuacao >= 1 }" ng-click="votarPost(post, 1.0)">
+                                <i class="fa fa-star"></i>
+                            </span>
+                        </div>
+                    </li>
+                    <li ng-if="post.totalVotos">
+                        <div class="btn-link">
+                            <span class="konviva-color-666"> ({{ post.totalVotos ? post.totalVotos : 0 }}) </span>
+
+                            <!-- media de votacao em estrelas
+                            <span ng-class="{ 'estrela-full' : post.mediaVotos && post.mediaVotos >= 1 }">
+                                <i ng-class="{ 'fa-star' : post.mediaVotos && post.mediaVotos >= 1, 'fa-star-o' : !(post.mediaVotos && post.mediaVotos >= 1) }" class="fa"></i>
+                            </span>
+                            <span ng-class="{ 'estrela-full' : post.mediaVotos && post.mediaVotos >= 2 }">
+                                <i ng-class="{ 'fa-star' : post.mediaVotos && post.mediaVotos >= 2, 'fa-star-o' : !(post.mediaVotos && post.mediaVotos >= 2) }" class="fa"></i>
+                            </span>
+                            <span ng-class="{ 'estrela-full' : post.mediaVotos && post.mediaVotos >= 3 }">
+                                <i ng-class="{ 'fa-star' : post.mediaVotos && post.mediaVotos >= 3, 'fa-star-o' : !(post.mediaVotos && post.mediaVotos >= 3) }" class="fa"></i>
+                            </span>
+                            <span ng-class="{ 'estrela-full' : post.mediaVotos && post.mediaVotos >= 4 }">
+                                <i ng-class="{ 'fa-star' : post.mediaVotos && post.mediaVotos >= 4, 'fa-star-o' : !(post.mediaVotos && post.mediaVotos >= 4) }" class="fa"></i>
+                            </span>
+                            <span ng-class="{ 'estrela-full' : post.mediaVotos && post.mediaVotos >= 5 }">
+                                <i ng-class="{ 'fa-star' : post.mediaVotos && post.mediaVotos >= 5, 'fa-star-o' : !(post.mediaVotos && post.mediaVotos >= 5) }" class="fa"></i>
+                            </span>
+                        -->
+                        </div>
+                    </li>
+                    <li>
+                        <div class="post-icones-informativo">
+                                <i ng-if="post.nivelCompartilhamento == 'GLOBAL'" title="{{'Global' | translate}}" class="fa fa-globe cor-icone-cliente"></i>
+                                <i ng-if="post.nivelCompartilhamento == 'PUBLICO_ALVO'" title="{{'Público-alvo' | translate}}" class="fa fa-users cor-icone-cliente"></i>
+                                <i ng-if="post.nivelCompartilhamento == 'UNIDADE'" title="{{'Unidade' | translate}}" class="fa fa-sitemap cor-icone-cliente"></i>
+                                <i ng-if="post.nivelCompartilhamento == 'SEGUINDO'" title="{{'Seguindo' | translate}}" class="fa fa-user cor-icone-cliente"></i>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="row box-post-custom">
+            <div ng-if="!post.isEditing" class="konviva-font12 post-entry col-md-12" ng-bind-html="getHtml(post.mensagem)"></div>
+            <ul class="box-post-custom-comentario-aluno">
+                <li ng-if="post.temPermissao">
+                    <a  title="{{ 'Editar' | translate }}" class="btn btn-default" ng-click="isEditing(post)" aria-hidden="true">
+                        <i class="fa fa-pencil konviva-font11 cor-icone-cliente"></i>
+                    </a>
+                </li>
+                <li ng-if="post.temPermissao">
+                    <a  title="{{ 'Excluir' | translate }}" class="btn btn-default" ng-click="confirmExcluirPost(post.id,true)" aria-hidden="true">
+                        <i class="fa fa-trash konviva-font11 cor-icone-cliente"></i>
+                    </a>
+                </li>
+                <li ng-if="(!post.comentarios.length) && (!post.controleComentar)">
+                    <a href="" class="btn btn-primary" ng-click="exibirCampoComentario(post)" >
+                        <i class="fa fa-comments" aria-hidden="true"></i> {{ 'Comentar' | translate }}
+                    </a>
+                </li>
+            </ul>
+        </section>
+        <div class="clearfix"></div>
+        <aside class="row" ng-if="post.isEditing">
+            <div ng-if="post.isEditing" class="col-md-12 konviva-form-textarea-noresize konviva-font12"
+                 ilog-editor-type="compact" ilog-editor-inline="true"
+                 ilog-editor="post.mensagemEdit" rows="3"
+                 ng-model="post.mensagemEdit">
+            </div>
+            <div ng-if="post.isEditing" class="btn-toolbar" style="width: 100%;">
+                <div class="btn-group">
+                    <button type="button" ng-click="salvarPost(post)" class="btn btn-primary cor-btn-cliente">{{ 'Salvar' | translate }}</button>
+                    <button type="button" ng-click="cancelEditing(post)" class="btn btn-default cor-btn-cliente">{{ 'Cancelar' | translate }}</button>
+                </div>
+            </div>
+            <!-- alteracao -->
+            <div ng-if="post.dateAlteracao" class="konviva-font10 konviva-color-666 konviva-text-italic pull-right p-b-1">
+                {{ 'alterado por: '| translate }} {{ post.nomeUsuarioAlteracao }} - {{ post.dateAlteracao | formatdate:'L' }} {{ post.dateAlteracao | formatdate:'HH:mm:ss' }}
+            </div>
+
+        </aside>
+<!-- comentar-->
+<section class="form-inline">
+    <div class="form-group k-posts-aluno konviva-colaboracao-comentario" ng-if="post.controleComentar">
+        <div class="input-group">
+            <div class="input-group-addon">
+                <img class="img-circle" alt="{{'Imagem do usuário' | translate}}" ng-src="{{ restPrefix }}/action/foto_model_usuario?id={{ usuarioid }}&w=40&h=40&c=60">
+            </div>
+
+            <form ng-if="!post.isEditing"  novalidate role="form" name="form" ng-submit="comentar(post)">
+                <div class="input-group col-md-12 p-a-05">
+                    <input type="text" class="form-control" placeholder="{{'Escreva um comentário...' | translate}}" ng-model="post.novoComentario">
+
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" ng-click="comentar(post)">{{'Comentar' | translate}}</button>
+                    </span>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+
+ <!--resposta comentario -->
+<section class="form-inline konviva-colaboracao-comentario" ng-repeat="comentario in post.comentarios">
+    <div class="form-group k-posts-aluno">
+        <div class="input-group">
+
+            <div class="input-group-addon">
+                <a href="" ui-sref="colaboracao.paginausuario.paginausuariopost({idusuario: comentario.idUsuarioKonviva})" class="pull-left">
+                    <img ng-src="{{ restPrefix }}/action/foto_model_usuario?id={{ comentario.idUsuario }}&w=40&h=40&c=60"
+                    class="media-object img-circle" style="width: 40px; height: 40px;"/>
+                </a>
+            </div>
+
+            <div class="pull-right">
+                <ul class="list-inline">
+                    <li ng-if="comentario.temPermissao || post.temPermissao">
+                        <a type="button" title="{{ 'Editar' | translate }}" class="btn btn-default" ng-click="isEditingComentario(comentario)">
+                            <i class="fa fa-pencil cor-icone-cliente"></i>
+                        </a>
+                        <a type="button" title="{{ 'Excluir' | translate }}" class="btn btn-default" ng-click="confirmExcluirPost(comentario.id,false)" ng-if="comentario.temPermissao || post.temPermissao">
+                            <i class="fa fa-trash cor-icone-cliente"></i>
+                        </a>
+
+                    </li>
+                </ul>
+            </div>
+
+
+            <time class="konviva-font10 konviva-color-666">{{ comentario.datePost | formatdate:'L' }} {{ comentario.datePost | formatdate:'HH:mm:ss' }}</time>
+            <h4>
+                <a href="" ui-sref="colaboracao.paginausuario.paginausuariopost({idusuario: comentario.idUsuarioKonviva})" class="konviva-font12 konviva-text-bold">{{ comentario.nomeUsuario }}</a>
+            </h4>
+
+            <form action="">
+                <div class="input-group col-md-12">
+                    <input type="text" class="form-control" ng-if="comentario.isEditing" ng-model="comentario.mensagemEdit" />
+
+                    <span class="input-group-btn" ng-if="comentario.isEditing">
+                        <button type="button" ng-click="salvarComentario(comentario)" class="btn btn-primary">{{ 'Salvar' | translate }}</button>
+                        <button type="button" ng-click="cancelEditingComentario(comentario)" class="btn btn-link">{{ 'Cancelar' | translate }}</button>
+                    </span>
+                </div>
+            </form>
+
+            <p ng-if="!comentario.isEditing" class="konviva-font12" ng-bind="comentario.mensagem"></p>
+
+            <span ng-if="comentario.dateAlteracao" class="konviva-font10 konviva-color-666 konviva-text-italic">
+                {{ 'alterado por: '| translate }} {{ comentario.nomeUsuarioAlteracao }} - {{ comentario.dateAlteracao | formatdate:'L' }} {{ comentario.dateAlteracao | formatdate:'HH:mm:ss' }}
+            </span>
+
+        </div>
+    </div>
+</section>
+
+
+ <!--segunda resposta -->
+<section class="form-inline konviva-colaboracao-comentario" ng-if="(post.comentarios.length) && (post.comentarios.length>0)">
+    <div class="form-group k-posts-aluno">
+        <div class="input-group">
+
+            <div class="input-group-addon">
+                <img class="img-circle" alt="{{'Imagem do usuário' | translate}}" ng-src="{{ restPrefix }}/action/foto_model_usuario?id={{ usuarioid }}&w=40&h=40&c=60">
+            </div>
+
+            <form novalidate role="form" name="form" ng-submit="comentar(post)">
+                <div class="input-group col-md-12 p-a-05">
+                    <input type="text" class="form-control" placeholder="{{'Escreva um comentário...' | translate}}" ng-model="post.novoComentario">
+
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" ng-click="comentar(post)">{{'Comentar' | translate}}</button>
+                    </span>
+                </div>
+            </form>
+
+            <div class="clearfix"></div>
+
+            <div class="alert alert-danger alert-dismissable konviva-alert-xs" ng-if="post.errorComentario">
+                <button type="button" class="close konviva-alert-button-close-xs" ng-click="limparMensagemErroComentario(post)">&times;</button>
+                {{ post.errorComentario }}
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+</article>
+</div>

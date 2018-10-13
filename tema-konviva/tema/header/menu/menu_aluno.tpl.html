@@ -1,0 +1,159 @@
+﻿<div class="container" >
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menuTemaResponsivo" aria-expanded="false">
+			<span class="sr-only">Menu</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand hidden-sm hidden-md hidden-lg" href="#">Menu</a>
+	</div>
+	<div class="collapse navbar-collapse" id="menuTemaResponsivo">
+		<ul class="nav navbar-nav nav-custom">
+			<!-- home -->
+			<li href="#" class="menu-tema-lista" data-toggle="collapse" data-target="#menuTemaResponsivo">
+				<a href="#" class="menu-tema-home" data-toggle="collapse" data-target="#menuTemaResponsivo">
+
+					<span>{{ 'Home' | translate }}</span>
+				</a>
+			</li>
+			<!-- cursos -->
+			<li class="menu-tema-lista" ng-if="configUnidade.mostraMeusCursos">
+				<a href="" class="menu-tema-cursos">
+					<span>{{ 'Cursos' | translate }}</span>
+				</a>
+				<ul class="dropdown-menu-tema">
+					<li ui-sref="aprendizagem.minhapagina.dashboard">
+						<a data-toggle="collapse" data-target="#menuTemaResponsivo">{{ 'Meus cursos' | translate }}</a>
+					</li>
+					<li ng-if="configUnidade.mostraHistorico" ui-sref="aprendizagem.historico" data-toggle="collapse" data-target="#menuTemaResponsivo">
+						<a  data-toggle="collapse" data-target="#menuTemaResponsivo">{{ 'Histórico' | translate }}</a>
+					</li>
+				</ul>
+			</li>
+			<!-- catalogo -->
+			<li ng-if="configUnidade.mostraCatalogo" ui-sref="aprendizagem.catalogo.cursos({'codCategoria':0})" data-toggle="collapse" data-target="#menuTemaResponsivo"  class="menu-tema-lista">
+				<a class="menu-tema-catalogo" data-toggle="collapse" data-target="#menuTemaResponsivo">
+					<span>{{ 'Catálogo' | translate }}</span>
+				</a>
+			</li>
+			<!-- trilhas -->
+			<li ng-if="configUnidade.mostraTrilhas" class="menu-tema-lista" ui-sref="aprendizagem.trilhalista" data-toggle="collapse" data-target="#menuTemaResponsivo">
+				<a ui-sref="aprendizagem.trilhalista" class="menu-tema-trilhas" data-toggle="collapse" data-target="#menuTemaResponsivo">
+					<span>{{ 'Trilhas' | translate }}</span>
+				</a>
+			</li>
+			<!-- biblioteca-->
+			<li ng-if="(!isVisitante) && hasFuncionalidade('konviva.funcionalidade.biblioteca') && hasRole('ROLE_BIBLIOTECA_GLOBAL')" class="menu-tema-lista" ui-sref="biblioteca.categorias({ })" data-toggle="collapse" data-target="#menuTemaResponsivo">
+				<a ui-sref="biblioteca.categorias({ })" class="menu-tema-biblioteca" data-toggle="collapse" data-target="#menuTemaResponsivo">
+					<span>{{ 'Biblioteca' | translate }}</span>
+				</a>
+			</li>
+			<!-- calendario -->
+			<li ng-if="configUnidade.mostraCalendario" class="menu-tema-lista" ui-sref="aprendizagem.calendario" data-toggle="collapse" data-target="#menuTemaResponsivo">
+				<a ui-sref="aprendizagem.calendario" class="menu-tema-calendario" data-toggle="collapse" data-target="#menuTemaResponsivo">
+					<span>{{ 'Calendário' | translate }}</span>
+				</a>
+			</li>
+			<!-- Colaboração-->
+			<li ng-if="hasFuncionalidade('konviva.funcionalidade.comunidades') && temPermissaoModulo('COLABORACAO') && hasRole('ROLE_MENU_USUARIO')" class="menu-tema-lista">
+				<a href="" class="menu-tema-colaboracao">
+					<span>{{ 'Colaboração' | translate }}</span>
+				</a>
+				<ul class="dropdown-menu-tema" >
+					<li ng-class="{active: colaboracaoMenu == 'minhapagina',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'minhapagina'}">
+						<a ui-sref="colaboracao.minhapagina.posts" ng-click="reloadSidebar()">
+							{{ 'Minha página' | translate }}
+						</a>
+					</li>
+					<li ng-class="{active: colaboracaoMenu == 'ranking',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'ranking'}"
+						ng-if="sideBarConfiguracao['pontuacaoAtiva']" >
+						<a ui-sref="colaboracao.ranking"  ng-click="reloadSidebar()">
+							<i class="fa fa-bar-chart konviva-icon" aria-hidden="true"></i>
+							<i ng-if="colaboracaoMenu == 'ranking'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							{{ 'Ranking' | translate }}
+						</a>
+					</li>
+					<li ng-class="{active: colaboracaoMenu == 'extrato',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'extrato'}"
+						ng-if="sideBarConfiguracao['pontuacaoAtiva']" >
+						<a ui-sref="colaboracao.extrato"  ng-click="reloadSidebar()">
+							<i class="fa fa-file-text konviva-icon" aria-hidden="true"></i>
+							<i ng-if="colaboracaoMenu == 'extrato'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							{{ 'Extrato de pontuação' | translate }}
+						</a>
+					</li>
+					<li ng-class="{active: colaboracaoMenu == 'usuarios',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'usuarios'}" >
+						<a  ui-sref="colaboracao.usuarios({'listAll':1})" ng-click="reloadSidebar()">
+							<i ng-if="colaboracaoMenu == 'usuarios'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							{{ 'Usuários' | translate }}
+						</a>
+					</li>
+					<li ng-class="{active: colaboracaoMenu == 'quemestouseguindo',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'quemestouseguindo'}" >
+						<a ui-sref="colaboracao.quemestouseguindo"  ng-click="reloadSidebar()">
+							<i ng-if="colaboracaoMenu == 'quemestouseguindo'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							{{ 'Seguindo' | translate }}
+						</a>
+					</li>
+					<li ng-class="{active: colaboracaoMenu == 'seguidores',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'seguidores'}" >
+						<a ui-sref="colaboracao.seguidores"  ng-click="reloadSidebar()">
+							</span>
+							<i ng-if="colaboracaoMenu == 'seguidores'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							{{ 'Seguidores' | translate }}
+						</a>
+					</li>
+					<li ng-class="{active: colaboracaoMenu == 'todascomunidades',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'todascomunidades'}">
+						<a ui-sref="colaboracao.todascomunidades.minhascomunidades"  ng-click="reloadSidebar()">
+							<i ng-if="colaboracaoMenu == 'todascomunidades'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							{{ 'Comunidades' | translate }}
+						</a>
+					</li>
+				</ul>
+			</li>
+			<!--Pilulas-->
+			<li ng-if="hasFuncionalidade('konviva.aprendizagem.enable_pilula')" ng-class="{active: aprendizagemMenu == 'minhaspilulas', 'konviva-menu-vertical-colaboracao-item' : aprendizagemMenu == 'minhaspilulas'}" class="menu-tema-lista">
+				<a ui-sref="aprendizagem.minhaspilulas.pendentes" class="menu-tema-pilula" ng-click="reloadSidebar()">
+					<span>{{ 'Pílula' | translate }}</span>
+				</a>
+			</li>
+			<!--Minha Equipe-->
+			<li ng-if="hasRole('ROLE_LIDER_EQUIPE') && isMenuLiderEquipeActive" class="menu-tema-lista">
+				<a href="" class="menu-tema-minha-equipe">
+					<span>{{ 'Minha equipe' | translate }}</span>
+				</a>
+				<ul class="dropdown-menu-tema">
+					<li ui-sref="lider.minhaEquipe.dashboard">
+						<a ui-sref="lider.minhaEquipe.dashboard" data-toggle="collapse" data-target="#menuTemaResponsivo">{{ 'Minha equipe' | translate }}</a>
+					</li>
+
+					<li ui-sref="lider.catalogo.cursos({'codCategoria':0})" data-toggle="collapse" data-target="#menuTemaResponsivo">
+						<a ui-sref="lider.catalogo.cursos({'codCategoria':0})" data-toggle="collapse" data-target="#menuTemaResponsivo">{{ 'Catálogo' | translate }}</a>
+					</li>
+
+					<li ng-click="gotoKonviva1('lms/admin/solicitacao_matricula')" data-toggle="collapse" data-target="#menuTemaResponsivo">
+						<a ng-click="gotoKonviva1('lms/admin/solicitacao_matricula')" data-toggle="collapse" data-target="#menuTemaResponsivo">{{ 'Solicitação de Matrículas' | translate }}</a>
+					</li>
+
+					<li ui-sref="lider.adminUsuario.listagem" data-toggle="collapse" data-target="#menuTemaResponsivo">
+						<a ui-sref="lider.adminUsuario.listagem" data-toggle="collapse" data-target="#menuTemaResponsivo">{{ 'Administrar Usuários' | translate }}</a>
+					</li>
+
+					<li ui-sref="lider.adminrelatorios.listagem.padrao" data-toggle="collapse" data-target="#menuTemaResponsivo">
+						<a ui-sref="lider.adminrelatorios.listagem.padrao" data-toggle="collapse" data-target="#menuTemaResponsivo">{{ 'Relatórios' | translate }}</a>
+					</li>
+				</ul>
+			</li>
+			<!-- Meus Pedidos -->
+			<li ng-if="hasFuncionalidade('konviva.funcionalidade.ecommerce') && configUnidade.mostraMeusPedidos"  ui-sref="aprendizagem.meuspedidos" data-toggle="collapse" data-target="#menuTemaResponsivo" class="menu-tema-lista">
+				<a ui-sref="aprendizagem.calendario" class="menu-tema-meus-pedidos" data-toggle="collapse" data-target="#menuTemaResponsivo">
+					<span>{{ 'Meus Pedidos' | translate }}</span>
+				</a>
+			</li>
+			<!-- meu perfil
+            <li class="" ui-sref="perfil" data-toggle="collapse" data-target="#menuTemaResponsivo">
+                <a ui-sref="perfil" class="menu-tema-perfil" data-toggle="collapse" data-target="#menuTemaResponsivo">
+                    <span>{{ 'Meu perfil' | translate }}</span>
+                </a>
+            </li> -->
+		</ul>
+	</div>
+</div>

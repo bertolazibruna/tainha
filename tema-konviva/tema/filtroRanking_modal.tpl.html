@@ -1,0 +1,56 @@
+<div class="modal-dialog modal-lg k-admin-root" ng-controller="FiltroRankingController">
+    <div class="c-12-12 k-admin-modal-content">
+        <div class="k-admin-modal-header">
+            <h4 class="k-admin-h4 k-modal-title" id="myModalLabel">{{ 'Selecionar Ranking' | translate }}</h4>
+        </div>
+
+        <div class="col-sm-9">
+            <div class="k-admin-search-group">
+                <div class="btn-group k-btn-lib-admin">
+                    <label class="btn btn-default"><input type="checkbox" ng-model="checkPA.value" /></label>
+                </div>
+                <div class="k-admin-search-group-input">
+                    <input type="text" class="k-admin-input-text" ng-model="filtroRanking.nome"
+                           placeholder="{{ 'Nome do Ranking' | translate }}"
+                           ng-keyup="pesquisaPAByEnter($event.keyCode)" role="search">
+                    <span class="icon-search"></span>
+                </div>
+                <div class="k-admin-search-group-btn">
+                    <button type="submit" class="k-admin-btn tertiary" title="{{ 'Buscar' | translate }}"
+                            ng-click="buscarRanking()">{{'Buscar' | translate}}</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="c-12-12 k-admin-modal-body">
+            <table class="k-admin-table table-modal"
+                   ilog-table table-layout="admin"
+                   table-show-opt="false"
+                   table-data="rankingData"
+                   table-compile-row="true"
+                   table-checkbox-model="rankingsSelecionados"
+                   table-page-size="cb"
+                   table-show-check="true"
+                   table-check-all="checkPA.value"
+                   refresh-fn="setRefreshFnPA(refreshFn)"
+                   table-row-id="id"
+                   ng-if="rankingData">
+                <thead>
+                <tr>
+                    <th>{{ 'Nome do Ranking' | translate }}</th>
+                    <th>{{ 'Data' | translate }}</th>
+                    <th>{{ 'Tipo' | translate }}</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="c-12-12 k-admin-modal-footer">
+            <button type="button" class="k-admin-btn primary k-left"
+                    ng-click="selecionarRanking(); closeModalSelecaoRanking()">{{ 'Confirmar' | translate }}</button>
+            <button type="button" class="k-admin-btn secondary k-right"
+                    ng-click="closeModalSelecaoRanking()">{{ 'Cancelar' | translate }}</button>
+        </div>
+    </div>
+</div>

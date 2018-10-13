@@ -1,0 +1,17 @@
+<footer class="k-footer" role="contentinfo" ng-controller="KonvivaFooterController">
+	<div class="k-footer-inner">
+        <div class="img-logo-footer-konviva" style="width: 10%; display: block; position: relative; margin: 0 auto">
+            <a href="#"  data-toggle="tooltip" data-placement="top" title="Home">
+                <img style="margin-top: 10px" class="img-responsive" ng-src="{{data.urlLogoRodapeKonviva}}" border="0"/>
+            </a>
+        </div>
+        <span class="konviva-font9 konviva-color-999">v 2.0.@VERSAO-@REV</span>
+        <span class="konviva-font9 konviva-color-999" style="display: none">Versão TEMA 1.5/1.1</span>
+        <!-- acesso como aluno -->
+        <div class="acesso-como-aluno">
+            <a href="" ng-if="loginAcessoComoAluno" ng-click="sairAcessoAlunoRest()" class="btn btn-default btn-xs" style="font-size: 10px">
+                {{'Sair do acesso como usuário' | translate }}
+            </a>
+        </div>
+	</div>
+</footer>

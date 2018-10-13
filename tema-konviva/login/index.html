@@ -1,0 +1,167 @@
+<!-- css login -->
+<link rel="stylesheet" ng-href="{{customLoginRoot + 'login.css'}}">
+<script>
+  jQuery(document).ready(function(){
+    jQuery('input').each(function(){
+      jQuery(this).css({
+        "-webkit-box-shadow" : "0 0 0 1000px rgba(0,0,0,.1) inset !important",
+        "background-color" :" transparent !important",
+        "-webkit-appearance" :"none !important"
+      }).after(this.outerHTML).remove();
+    });
+    setInterval(function() {
+      jQuery('#konviva-novo-login').removeClass('hidden');
+    }, 500);
+  });
+</script>
+<div id="konviva-novo-login" ng-controller="LoginController" >
+	<nav class="navbar  navbar-login" role="navigation">
+		<div class="container">
+			<ul class="nav navbar-nav navbar-right hidden-ie8">
+				<li>
+					<a href="" ng-click="setLanguage('pt');" title="{{ 'PT' | translate }}" >
+						<span class="k-btn-lang k-flag-br"></span>
+					</a>
+				</li>
+				<li>
+					<a href="" ng-click="setLanguage('en');" title="{{ 'EN' | translate }}">
+						<span class="k-btn-lang k-flag-gb" ></span>
+					</a>
+				</li>
+				<li>
+					<a href="" ng-click="setLanguage('es');" title="{{ 'ES' | translate }}">
+						<span class="k-btn-lang k-flag-es"></span>
+					</a>
+				</li>
+				<li>
+					<a href="" ng-click="setLanguage('zh');" title="{{ 'CHINES' | translate }}">
+						<span class="k-btn-lang k-flag-zh"></span>
+					</a>
+				</li>
+				<li class="dropdown">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown">
+						{{ '+ Informações' | translate }}
+						<i class="fa fa-caret-down"></i>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<h5>{{ 'Navegadores suportados' | translate }}:</h5>
+							<ul class="list-unstyled list-inline ">
+								<li>
+									<a id="download_chrome_pop" href="https://support.google.com/chrome/bin/answer.py?hl=pt-BR&amp;answer=95346&amp;topic=14660&amp;rd=1"
+										 title="{{ 'Clique e faça download do Chrome' | translate }}" target="_blank">
+										<i class="fa fa-chrome"></i>
+										10+
+									</a>
+								</li>
+								<li>
+									<a id="download_firefox_pop"  href="http://www.mozilla.org/en-US/firefox/new/"
+										 title="{{ 'Clique e faça download do Firefox' | translate }}" target="_blank">
+										<i class="fa fa-firefox"></i>
+										6+
+									</a>
+								</li>
+								<li>
+									<a id="browser_ie_pop"  href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?WT.mc_id=MSCOM_EN_US_DLC_FAMILIES_121LMUS007473" title="{{ 'Clique e faça download do IE' | translate }}" target="_blank">
+										<i class="fa fa-edge"></i>
+										10+
+									</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<h5>{{ 'Requisitos do sistema' | translate }}:</h5>
+							<ul class="list-unstyled list-inline ">
+								<li style="display: block;">
+									<small>{{ 'Recomenda-se a utilização de resolução 1024x768' | translate }}</small>
+									<small>{{ 'Javascript, popup e cookies habilitados' | translate }}</small>
+								</li>
+								<li>
+									<a id="download_flash_pop" href="http://get.adobe.com/br/flashplayer/?promoid=BUIGP"
+										 title="{{ 'Baixar o plugin do flash player' | translate }}" target="_blank">
+										<i class="fa fa-bolt"></i>
+										Flash Player
+									</a>
+								</li>
+								<li>
+									<a id="download_pdf_pop" href="http://get.adobe.com/br/reader/?promoid=BUIGO"
+										 title="{{ 'Baixar o plugin do Adobe Reader' | translate }}" target="_blank">
+										<i class="fa fa-file-pdf-o"></i>
+										Adobe Reader
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	
+	<!-- /.navbar-collapse -->
+	</nav>
+	<section class="form-login-custom">
+		<div class="container " >
+			<div class="row-flex itens-center">
+				<form class="form-login" novalidate role="form" ng-submit="login(form)" name="form" autocomplete="off">
+					<!-- logo -->
+					<div class="box-logo" >
+						<img class="logo-login-custom" ng-src="{{ restPrefix }}/action/resources/config/logotipo?c=36000&t={{t}}" border="0"/>
+						<div ng-if="false" class="logo-login-custom" ng-style="{ 'background-image': 'url(' + customLoginRoot + '/img/)'}"></div> <!--Caso seja necessário utilizar mais de uma logo-->
+					</div>
+					<!-- mensagem de erro -->
+					<div class="login-mensagem-erro">
+						<div class="alert text-center" ng-if="status == 'erro'">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<div>{{msg}}</div>
+						</div>
+						<div class="alert text-center" ng-if="status == 'dadosInvalidos'">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<div>{{ 'Usuário ou senha não preenchida' | translate }}</div>
+						</div>
+					</div>
+					<!-- Login -->
+					<div class="form-group">
+						<label class="sr-only" for="login">{{ 'Só faça login se você for a Bruna' | translate }}</label>
+						<input maxlength="250" type="text" class="form-control" autocomplete="off" name="login" required ng-model="dados.login" placeholder="{{ 'Login' | translate }}" />
+					</div>
+					<!-- Senha -->
+					<div class="form-group">
+						<label class="sr-only" for="inputPassword1">{{ 'Você tem cereteza que vai ignorar meu aviso?' | translate }}</label>
+						<input type="password" class="form-control" autocomplete="off" name="senha" required ng-model="dados.senha" id="inputPassword1"
+									 placeholder="{{ 'Senha' | translate }}" />
+					</div>
+					<div class="form-group">
+						<!-- submit -->
+						<button type="submit" class="btn btn-primary btn-block" style="border-radius: 18px; margin: auto; width: 30vw;  background-color: #e64c4c;  border: none; height: 36px;">{{ 'Entrar' | translate }}</button>
+						<!-- esqueci minha senha -->
+						<div ng-if="mostrarEsqueciMinhaSenha">
+							<a class="btn btn-esqueci" href="" ng-click="onEsqueciMinhaSenhaClick()"
+								 title="{{ 'Esqueci minha senha' | translate }}" >
+								{{ 'Esqueci minha senha' | translate }}
+							</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+	<!--Imagem de Background-->
+	<img  id="img-bg" ng-style="{ 'background-image': 'url(' + restPrefix + '/action/resources/config/logotipo?tipo=login&c=36000&t={{'+t+'}})'}"/>
+
+	<!-- video background -->
+	<div class="video-container" ng-if="false">
+		<div class="opacity"></div>
+		<video id="bgvid" loop muted autoplay poster="{{ restPrefix }}/action/resources/config/logotipo?tipo=login&c=36000&t={{t}}" class="fullscreen-bg__video">
+			<source ng-src="{{ customLoginRoot + 'video/video-login-custom.mp4' }}" type="video/mp4" />
+		</video>
+	</div>
+
+</div>
+
+
+
+

@@ -1,0 +1,136 @@
+﻿
+<div ng-controller="KonvivaHeaderController" class="k-tema-header">
+	<nav class="navbar navbar-default k-tema-header konviva-main-navbar konviva-well-header k-nprint" role="navigation">
+		<div class="container">
+			<div id="navbar-header" class="navbar-header">
+				<button type="button" class="navbar-toggle offcanvas-toggle" data-toggle="offcanvas" data-target="#js-bootstrap-offcanvas">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<!--Script para ativar o menu responsivo -->
+				<script type="text/javascript">
+
+                    jQuery('[data-toggle="offcanvas"]').each(function() {
+                        var oc;
+                        return oc = new Offcanvas(jQuery(this));
+                    });
+
+                    jQuery('.nav li').each(function() {
+                        jQuery(this).click(function() {
+                            jQuery("#js-bootstrap-offcanvas").trigger("offcanvas.close");
+                        });
+                    });
+
+				</script>
+				<!--Logo Konviva-->
+				<div class="box-logo-custom">
+					<a class="navbar-brand img-logo-adm" href="#">
+						<img ng-src="{{urlLogoKonviva}}" border="0"  />
+					</a>
+				</div>
+				<!--Funcionalidades Sub Menu-->
+				<div class="box-funcionalidades" ng-include="'header/funcionalidades_header.tpl.html'"></div>
+				<!--Perfil-->
+				<div class="box-perfil-custom hidden-xs hidden-sm" ng-include="'header/perfil/perfil.tpl.html'"></div>
+			</div>
+			<!--Responsivo-->
+			<div class="navbar-offcanvas navbar-offcanvas-right" ng-class="{'navbar-offcanvas-intelbras':  !hasRole('ROLE_MENU_ADMIN') }" id="js-bootstrap-offcanvas">
+				<!--Pesquisa Menu Responsivo-->
+				<form class="navbar-form navbar-left visible-xs " role="search" ng-if="hasRole('ROLE_DASHBOARD_ALUNO')" ng-include="'header/search.tpl.html'"></form>
+				<!--Perfil Mobile-->
+				<div class="box-perfil-custom hidden-md hidden-lg" ng-include="'header/perfil/perfil_mobile.tpl.html'"></div>
+				<!--Menu funcionalidades como Adm-->
+				<div ng-if="hasRole('ROLE_MENU_ADMIN')" class="visible-xs visible-sm hidden-md hidden-lg" ng-include="'header/funcionalidades_header/sub_menu_header_adm.tpl.html'"></div>
+				<!--Menu funcionalidades como Aluno-->
+				<div  ng-if="hasRole('ROLE_DASHBOARD_ALUNO')" class="hidden-md hidden-lg hidden-sm" ng-include="'header/funcionalidades_header/sub_menu_header_adm.tpl.html'"></div>
+				<!--Menu sidebar responsivo-->
+				<div  ng-include="'header/sidebar_responsivo.tpl.html'"></div>
+				<!-- Menu Perfil Administrador -->
+				<div  ng-include="'header/menu/menu_adm.tpl.html'"></div>
+				<!-- Menu de Acessibilidade -->
+				<ul class="nav navbar-nav navbar-nav-acessibilidade  " style="display: none">
+					<li class="k-acessibilidade-menu-header clearfixvisible-xs" onclick="hideMenu()">
+						<div class="k-acessibilidade-menu">
+							<ilog-letter></ilog-letter>
+							<span>
+									<ilog-contrast file-url="css/altoKontrast.css" file-type="css"></ilog-contrast>
+								</span>
+						</div><!-- /.k-acessibilidade-menu -->
+					</li>
+				</ul>
+			</div><!-- /.navbar-offcanvas -->
+		</div>
+	</nav>
+	<!-- Menu -->
+	<nav ng-controller="SidebarController" class="navbar navbar-default hidden-xs" style="border: none!important;">
+		<div id="menuTema" class="menu-tema" ng-style="{ 'height': hasRole('ROLE_MENU_ADMIN') ? '0' : '', 'overflow': hasRole('ROLE_MENU_ADMIN') ? 'hidden' : '', 'margin-top': hasRole('ROLE_MENU_ADMIN') ? '115px' : '' }">
+			<div  ng-include="'header/menu/menu_aluno.tpl.html'"></div>
+		</div>
+	</nav>
+	<!-- /menu -->
+	<!-- Revisar a hasRole abaixo -->
+	<div ng-if="username" class="k-modulos konviva-navbar k-nprint hidden-xs"
+		 ng-style="{ 'border-top': hasRole('ROLE_MENU_ADMIN')  ? '0' : '' , 'background': hasRole('ROLE_MENU_ADMIN') ? '' : 'transparent' }">
+		<div ng-include="'menu_admin.tpl.html'" ng-if="hasRole('ROLE_MENU_ADMIN')"></div>
+	</div>
+	<!-- Modal Compartilhar -->
+	<div class="modal fade" id="compartilharModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<form>
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="compartilharModalLabel">Compartilhe</h4>
+					</div>
+					<div class="modal-body">
+						<textarea class="form-control konviva-margin-bottom" rows="3" ng-model="post.mensagem"></textarea>
+					</div>
+
+					<div class="modal-footer" style="margin-top:0">
+
+						<div class="alert alert-danger alert-dismissable konviva-alert-xs" ng-if="errorComentario && errorComentario!=null">
+							<button type="button" class="close konviva-alert-button-close-xs" ng-click="clearErrorComentario()">&times;</button>
+							{{ errorComentario }}
+						</div>
+
+						<div class="alert alert-success alert-dismissable konviva-alert-xs" ng-if="successComentario && successComentario!=null">
+							<button type="button" class="close konviva-alert-button-close-xs" ng-click="clearSuccessComentario()">&times;</button>
+							{{ successComentario }}
+						</div>
+
+						<div class="clearfix"></div>
+
+						<div ng-if="compartilharTracker.active()">
+							<div style="display:block">
+								<i class="fa fa-spinner fa-spin konviva-font18"></i>
+							</div>
+						</div>
+
+						<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+
+						<button type="button"  ng-disabled="compartilharTracker.active()" ng-click='novoPost()' class="btn btn-primary btn-sm" >
+							{{'Compartilhar' | translate}}
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<script>
+		window.onscroll = function() {
+			resizeMenu()
+		};
+		function resizeMenu() {
+			if (document.body.scrollTop > 0 || document.documentElement.scrollTop > 0) {
+				document.getElementById("menuTema").className = "menu-tema resize";
+                document.getElementById("navbar-header").className = "navbar-header resize";
+			} else {
+				document.getElementById("menuTema").className = "menu-tema";
+                document.getElementById("navbar-header").className = "navbar-header";
+			}
+		}
+	</script>
+</div>

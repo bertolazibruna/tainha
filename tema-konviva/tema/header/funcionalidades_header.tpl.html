@@ -1,0 +1,15 @@
+﻿<!--Buscar perfil aluno-->
+<form class="navbar-form navbar-right hidden-xs" role="search">
+	<div  ng-if="hasRole('ROLE_DASHBOARD_ALUNO')">
+		<div ng-include="'header/search.tpl.html'"></div>
+
+		<div ng-include="'header/funcionalidades_header/gamificacao_header.tpl.html'"></div>
+
+		<div ng-include="'header/funcionalidades_header/sub_menu_header_aluno.tpl.html'"></div>
+	</div>
+	<div ng-if="hasRole('ROLE_MENU_ADMIN')">
+		<div class="visible-xs visible-sm visible-md visible-lg" ng-include="'header/funcionalidades_header/sub_menu_header_adm.tpl.html'"></div>
+	</div>
+</form>
+<!--/Buscar perfil aluno-->
+

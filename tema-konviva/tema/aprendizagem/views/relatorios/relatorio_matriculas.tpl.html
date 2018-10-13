@@ -1,0 +1,108 @@
+<div class="konviva-header-content-colaboracao konviva-painel-default">
+    <h3 ng-show="false" class="konviva-margin-top0">
+        <i class="fa fa-spinner fa-spin fa-large konviva-font16" aria-hidden="true"></i>
+    </h3>
+</div>
+
+<div class="konviva-header-content-colaboracao konviva-painel-default">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <h2 class="k-titulo-aprendizagem">
+            <span>{{ 'Relatórios' | translate }} <i class="fa fa-angle-right konviva-font11 konviva-color-999"></i></span> {{ 'Relatório de Matrículas' | translate }}
+        </h2>
+
+    </div>
+</div>
+
+<div class="col-xs-12 col-sm-12 col-md-12" ng-controller="RelatorioMatriculasController">
+    <div class="k-page-view">
+        <div class="row">
+            <div class="k-content-filtros">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ 'Modalidade' | translate }}</label>
+                        <div class="col-sm-9">
+                            <div class="konviva-width-100" data-ng-repeat="(modalidade, ckecked)  in filtro.modalidades">
+                                <div class="pull-left" style="width: 25px">
+                                    <input id="{{modalidade}}" type="checkbox" ng-model="filtro.modalidades[modalidade]" ng-value="filtro.modalidades[modalidade]" ng-checked="ckecked"/>
+                                </div>
+                                <label for="{{modalidade}}">{{ labelModalidade(modalidade) }}</label>
+                            </span>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ 'Curso' | translate }}</label>
+                        <div class="col-sm-9">
+                            <div class="alert alert-warning fade in" role="alert" ng-if="cursoSelecionado">
+
+                                <button type="button" class="close" data-dismiss="alert" ng-click="removerCursoSelecionado()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                {{cursoSelecionado.nome}}
+
+                            </div>
+                            <button class="btn btn-default btn-sm" ng-click="openModalSelecaoCursos()">
+                                {{ 'Selecionar' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ 'Turma' | translate }}</label>
+                        <div class="col-sm-9">
+                            <div class="alert alert-warning fade in" role="alert" ng-if="turmaSelecionada">
+
+                                <button type="button" class="close" data-dismiss="alert" ng-click="removerTurmaSelecionado()"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                {{turmaSelecionada.nome}}
+
+                            </div>
+                            <button class="btn btn-default btn-sm" ng-click="openModalSelecaoTurma()">
+                                {{ 'Selecionar' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="filtro.codTurma==0">
+                        <label class="col-sm-3 control-label">{{ 'Situação turma' | translate }}</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" ng-model="filtro.situacaoTurma">
+                                <option  value="">{{'Todos' | translate}}</option>
+                                <option value="ATIVO">{{'ATIVO' | translate}}</option>
+                                <option value="INATIVO">{{'INATIVO' | translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ 'Status de matrícula' | translate }}</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" ng-model="filtro.statusMatricula">
+                                <option  value="">{{'Todos' | translate}}</option>
+                                <option value="MATRICULADO">{{'MATRICULADO' | translate}}</option>
+                                <option value="CONCLUIDO">{{'CONCLUIDO' | translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">{{ 'Data da matrícula' | translate }}</label>
+                        <div class="col-sm-9 k-form-date">
+                            <input type="text" class="form-control" placeholder="{{ 'DD-MM-AAAA' | translate }}" autoclose="true" ng-model="filtro.inicioDataMatricula" data-date-format="dd-MM-yyyy" ilog_datepicker/>
+                            {{'até' | translate}}
+                            <input type="text" class="form-control" placeholder="{{ 'DD-MM-AAAA' | translate }}" autoclose="true" ng-model="filtro.fimDataMatricula" data-date-format="dd-MM-yyyy" ilog_datepicker/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <h4 ng-show="downloadRelatorioTracker.active()" style="width: 100%">
+                                <div style="display:block">
+                                    <i class="fa fa-spinner fa-spin fa-large konviva-font14"></i>
+                                </div>
+                            </h4>
+
+                            <a href="javascript:history.back()" class="btn btn-default btn-sm" role="button"><i class="fa fa-angle-left"></i> {{ 'Voltar' | translate }}</a>
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="gerarRelatorio('EXCEL')" ng-disabled="downloadRelatorioTracker.active()">{{ 'Gerar relatório (EXCEL)' | translate }}</button>
+                            <button type="button" class="btn btn-primary btn-sm" ng-click="gerarRelatorio('CSV')" ng-disabled="downloadRelatorioTracker.active()">{{ 'Gerar relatório (CSV)' | translate }}</button>
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

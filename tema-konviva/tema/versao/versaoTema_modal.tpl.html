@@ -1,0 +1,32 @@
+<div class="modal-dialog modal-lg k-admin-root" ng-controller="ControllerTema">
+    <div class="c-12-12 k-admin-modal-content">
+
+        <div class="clearfix"></div>
+
+        <div class="col-md-12">
+           <ul class="lista-versao-tema nav nav-tabs">
+
+               <p><span class="badge">Versão do Tema 1.5.1</span></p>
+
+               <li>Aluno</li>
+               <li role="presentation" class="active"><a href="#">Home</a>
+                   <p><i class="fa fa-check-circle-o"><span>Biblioteca somente para ADM no Header, utilizando o (ng-if="!hasRole('ROLE_DASHBOARD_ALUNO')").</span></i></p>
+                   <p><i class="fa fa-check-circle-o"><span>Menu preparado para receber (Minha Equipe).</span></i></p>
+                   <p><i class="fa fa-check-circle-o"><span>Menu preparado para receber (Meus Pedidos).</span></i></p>
+                   <p><i class="fa fa-check-circle-o"><span>Campo de Busca aumentado.</span></i></p>
+                   <p><i class="fa fa-check-circle-o"><span>Botões da Home permitem a configuração via interface.</span></i></p>
+                   <p class="divider"></p>
+                   <p>Administrador</p>
+                   <p><i class="fa fa-check-circle-o"><span>Correção no posicionamento dos resultados do campo de busca(Geral).</span></i></p>
+                   <p><i class="fa fa-check-circle-o"><span>Correção do padding-top no ADM (visão aluno).</span></i></p>
+               </li>
+               <li role="presentation"><a href="#">Profile</a></li>
+               <li role="presentation"><a href="#">Messages</a></li>
+           </ul>
+        </div>
+        <div class="c-12-12 k-admin-modal-footer">
+            <button type="button" class="k-admin-btn secondary k-right"
+                    ng-click="closeModalVersaoTema()">{{ 'Cancelar' | translate }}</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1043 @@
+﻿<div class="navbar-offcanvas navbar-offcanvas-right" ng-class="{'navbar-offcanvas-intelbras':  !hasRole('ROLE_MENU_ADMIN') }" id="js-bootstrap-offcanvas">
+	<form class="navbar-form navbar-left visible-xs " role="search" ng-if="hasRole('ROLE_DASHBOARD_ALUNO')">
+		<div class="form-group ">
+			<div class="input-group">
+				<input type="text" class="form-control konviva-form" ng-model="valorBusca" placeholder="{{ 'Buscar...' | translate }}" role="search">
+				<div class="input-group-btn">
+					<button type="submit" ng-click="buscaGlobal(valorBusca)" class="btn btn-konviva-form  ">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<!--menu padrao do konviva-->
+	<ul class="nav navbar-nav navbar-right k-nav-padrao">
+		<li>
+			<a class="konviva-content-ic-header visible-lg" ng-if="false">
+				<i class="fa fa-search"></i>
+			</a>
+		</li>
+		<!--<li>
+            <a class="konviva-content-ic-headerk-btn-temp"  href="/portal"
+               ng-if="(!isVisitante) && hasFuncionalidade('konviva.funcionalidade.ecommerce')" >
+                <i class="fa fa-external-link-square k-icon-header"></i>
+                <span class="k-label-menu-header">{{ 'Portal' | translate}}</span>
+            </a>
+        </li>-->
+		<!--<li>
+            <a  class="konviva-content-ic-headerk-btn-temp" ui-sref="forum.forumList"
+                ng-if="(!isVisitante) && hasFuncionalidade('konviva.funcionalidade.forum') && hasRole('ROLE_FORUM_GLOBAL')">
+                <i class=" glyphicon glyphicon-comment glyphicon-reverse"></i>
+                <span class="k-label-menu-header">{{ 'Fórum' | translate}}</span>
+            </a>
+        </li>-->
+		<li ng-if="!hasRole('ROLE_DASHBOARD_ALUNO')">
+			<a href="" class="konviva-content-ic-headerk-btn-temp" ui-sref="biblioteca.categorias({'onlyMyFiles':null,'cid':null})"
+			   ng-if="(!isVisitante) && hasFuncionalidade('konviva.funcionalidade.biblioteca') && hasRole('ROLE_BIBLIOTECA_GLOBAL')">
+				<i class="fa fa-folder"></i>
+				<span class="k-label-menu-header">{{ 'Biblioteca' | translate}}</span>
+				<!-- <span class="badge konviva-back-red konviva-font10 konviva-color-fff konviva-text-bold pullright konviva-badge-header">10</span> -->
+			</a>
+		</li>
+		<li>
+			<a class="konviva-content-ic-headerk-btn-temp" ui-sref="correio.inbox"
+			   ng-if="(!isVisitante) && hasFuncionalidade('konviva.funcionalidade.correio') && hasRole('ROLE_CORREIO_GLOBAL')">
+				<i class="fa fa-envelope"></i>
+				<span class="badge konviva-back-red konviva-font10 konviva-color-fff konviva-text-bold pullright konviva-badge-header" ng-if="totalMensagensNaoLidas > 0">
+								{{totalMensagensNaoLidas}}
+								</span>
+				<span class="k-label-menu-header">{{ 'Correio' | translate}}</span>
+			</a>
+		</li>
+		<li>
+			<!--<a class="konviva-content-ic-headerk-btn-temp" ng-if="hasFaleConoscoUsuarioLogado"  ui-sref="faleconosco">-->
+			<a class="konviva-content-ic-headerk-btn-temp" ui-sref="faleconosco">
+				<i class="fa fa-headphones" ></i>
+				<span class="k-label-menu-header">{{ 'Atendimento' | translate}}</span>
+			</a>
+		</li>
+
+		<li>
+			<a  class="konviva-content-ic-headerk-btn-temp"  ui-sref="faq"
+				ng-if="(!isVisitante) && hasFuncionalidade('konviva.funcionalidade.faq')">
+				<i class="fa fa-question-circle"></i>
+				<span class="k-label-menu-header">{{ 'Faq' | translate}}</span>
+			</a>
+		</li>
+
+		<!--<li>
+            &lt;!&ndash;Compartilhar info/doc&ndash;&gt;
+            <a class="konviva-content-ic-headerk-btn-temp k-cursor-pointer" data-toggle="modal" data-target="#compartilharModal"
+               ng-click="initPostHeader()"  ng-if="hasFuncionalidade('konviva.funcionalidade.comunidades') && temPermissaoModulo('COLABORACAO')">
+                <i class="fa fa-share-alt"></i>
+                <span class="k-label-menu-header">{{ 'Compartilhe' | translate}}</span>
+            </a>
+        </li>-->
+		<li class="divider visible-xs"></li>
+
+	</ul>
+	<form class="navbar-form navbar-right hidden-xs " role="search" ng-if="hasRole('ROLE_DASHBOARD_ALUNO')">
+		<div class="form-group ">
+			<div class="input-group">
+				<input type="text" class="form-control konviva-form" ng-model="valorBusca" placeholder="{{ 'Buscar...' | translate }}" role="search">
+				<div class="input-group-btn">
+					<button type="submit" ng-click="buscaGlobal(valorBusca)" class="btn btn-konviva-form  ">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<!-- Menu Perfil Aluno -->
+	<div id="menu-perfil-aluno" ng-controller="SidebarController" class="visible-xs">
+		<ul class="nav navbar-nav navbar-full menuPrincipal" ng-if="principalMenu == 'portal'" ng-class="{'active': principalMenu == 'portal'}">
+			<li>
+				<a href="" data-target="#principalMenu" data-toggle="collapse" data-parent="#menu-perfil-aluno">
+					<span class="k-label-menu-header">{{ 'Principal' | translate }}</span>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+				</a>
+				<ul class="nav navbar-nav collapse"  id="principalMenu" ng-class="{'in' :  principalMenu == 'portal'}">
+					<li ng-class="{active: principalMenu == 'portal', 'konviva-menu-vertical-colaboracao-item' : principalMenu == 'portal'}">
+						<a ui-sref="portal"  ng-click="reloadSidebar()">
+							<i class="fa fa-home konviva-icon"
+							   aria-hidden="true"></i>
+							<i ng-if="principalMenu == 'portal'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i>
+							<span> {{ 'Home' | translate }}</span>
+						</a>
+					</li>
+
+					<li ng-if="false">
+						<a ui-sref="aprendizagem.minhapagina.dashboard"  ng-click="reloadSidebar()">
+							<i class="fa fa-line-chart konviva-icon" aria-hidden="true"></i>
+							<!-- <i ng-if="aprendizagemMenu == 'dashboard'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i> -->
+							<span> {{ 'Indicadores' | translate }}</span>
+						</a>
+					</li>
+					<li ng-if="false">
+						<a ui-sref="aprendizagem.minhapagina.dashboard"  ng-click="reloadSidebar()">
+							<i class="fa fa-check-circle konviva-icon" aria-hidden="true"></i>
+							<!-- <i ng-if="aprendizagemMenu == 'dashboard'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i> -->
+							<span> {{ 'Tarefas' | translate }}</span>
+						</a>
+					</li>
+					<li ng-if="false">
+						<a ui-sref="aprendizagem.minhapagina.dashboard"  ng-click="reloadSidebar()">
+							<i class="fa fa-certificate konviva-icon" aria-hidden="true"></i>
+							<!-- <i ng-if="aprendizagemMenu == 'dashboard'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i> -->
+							<span> {{ 'Minhas conquistas' | translate }}</span>
+						</a>
+					</li>
+					<li ng-if="false">
+						<a ui-sref="aprendizagem.minhapagina.dashboard"  ng-click="reloadSidebar()">
+							<i class="fa fa-toggle-on konviva-icon" aria-hidden="true"></i>
+							<!-- <i ng-if="aprendizagemMenu == 'dashboard'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i> -->
+							<span> {{ 'Pilulas do conhecimento' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+		<ul class="nav navbar-nav navbar-full menuAprendizagem" ng-if="configUnidade.mostraAprendizagem && hasRole('ROLE_MENU_USUARIO')">
+			<li >
+				<a href="" data-target="#aprendizagemMenu" data-toggle="collapse" data-parent=".menuAprendizagem">
+					<span class="k-label-menu-header">{{ 'Aprendizagem' | translate }}</span>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+				</a>
+				<ul class="nav navbar-nav collapse" id="aprendizagemMenu" ng-class="{'in' : aprendizagemMenu}">
+					<li ng-if="configUnidade.mostraMeusCursos"
+						ng-class="{active: aprendizagemMenu == 'dashboard',  'konviva-menu-vertical-colaboracao-item' : aprendizagemMenu == 'dashboard'}">
+						<a ui-sref="aprendizagem.minhapagina.dashboard"  ng-click="reloadSidebar()">
+							<i class="fa fa-graduation-cap konviva-icon" aria-hidden="true"></i>
+							<i ng-if="aprendizagemMenu == 'dashboard'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i>
+							<span> {{ 'Meus cursos' | translate }}</span>
+						</a>
+					</li>
+
+					<li ng-if="hasFuncionalidade('konviva.aprendizagem.enable_pilula')"
+						ng-class="{active: aprendizagemMenu == 'minhaspilulas', 'konviva-menu-vertical-colaboracao-item' : aprendizagemMenu == 'minhaspilulas'}">
+						<a ui-sref="aprendizagem.minhaspilulas.pendentes"  ng-click="reloadSidebar()">
+							<i class="icon-pill-pilula icone konviva-icon" aria-hidden="true"></i>
+							<i ng-if="aprendizagemMenu == 'minhaspilulas'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i>
+							<span> {{ 'Minhas Pílulas' | translate }}</span>
+						</a>
+					</li>
+
+					<li ng-if="configUnidade.mostraCatalogo"
+						ng-class="{active: aprendizagemMenu == 'catalogo',  'konviva-menu-vertical-colaboracao-item' : aprendizagemMenu == 'catalogo'}">
+						<a ui-sref="aprendizagem.catalogo.cursos({'codCategoria':0})"  ng-click="reloadSidebar()">
+							<i class="fa fa-book konviva-icon" aria-hidden="true"></i>
+							<i ng-if="aprendizagemMenu == 'catalogo'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i>
+							<span> {{ 'Catálogo' | translate }}</span>
+						</a>
+					</li>
+
+					<li ng-if="configUnidade.mostraCalendario"
+						ng-class="{active: aprendizagemMenu == 'calendario',  'konviva-menu-vertical-colaboracao-item' : aprendizagemMenu == 'calendario'}">
+						<a ui-sref="aprendizagem.calendario"  ng-click="reloadSidebar()">
+							<i class="fa fa-calendar konviva-icon" aria-hidden="true"></i>
+							<i ng-if="aprendizagemMenu == 'calendario'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i>
+							<span> {{ 'Calendário' | translate }}</span>
+						</a>
+					</li>
+
+					<li ng-if="configUnidade.mostraTrilhas"
+						ng-class="{active: aprendizagemMenu == 'trilhalista',  'konviva-menu-vertical-colaboracao-item' : aprendizagemMenu == 'trilhalista'}">
+						<a ui-sref="aprendizagem.trilhalista"  ng-click="reloadSidebar()">
+							<i class="fa fa-map-marker konviva-icon" aria-hidden="true"></i>
+							<i ng-if="aprendizagemMenu == 'trilhalista'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i>
+							<span> {{ 'Trilhas' | translate }}</span>
+						</a>
+					</li>
+
+					<li ng-if="configUnidade.mostraHistorico"
+						ng-class="{active: aprendizagemMenu == 'historico',  'konviva-menu-vertical-colaboracao-item' : aprendizagemMenu == 'historico'}">
+						<a ui-sref="aprendizagem.historico"  ng-click="reloadSidebar()">
+							<i class="fa fa-history konviva-icon" aria-hidden="true"></i>
+							<i ng-if="aprendizagemMenu == 'historico'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i>
+							<span> {{ 'Histórico' | translate }}</span>
+						</a>
+					</li>
+
+					<li ng-class="{active: aprendizagemMenu == 'meuspedidos',  'konviva-menu-vertical-colaboracao-item' : aprendizagemMenu == 'meuspedidos'}"
+						ng-if="hasFuncionalidade('konviva.funcionalidade.ecommerce') && configUnidade.mostraMeusPedidos">
+						<a ui-sref="aprendizagem.meuspedidos"  ng-click="reloadSidebar()">
+							<i class="fa fa-file-o konviva-icon" aria-hidden="true"></i>
+							<i class="fa fa-check konviva-icon konviva-icon-double"></i>
+							<i ng-if="aprendizagemMenu == 'meuspedidos'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i>
+							<span> {{ 'Meus pedidos' | translate }}</span>
+						</a>
+					</li>
+
+					<li ng-if="configUnidade.mostraRelatorios"
+						ng-class="{active: aprendizagemMenu == 'relatorios',  'konviva-menu-vertical-colaboracao-item' : aprendizagemMenu == 'relatorios'}">
+						<a ui-sref="aprendizagem.relatorios"  ng-click="reloadSidebar()">
+							<i class="fa fa-bar-chart-o konviva-icon" aria-hidden="true"></i>
+							<i ng-if="aprendizagemMenu == 'relatorios'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i>
+							<span> {{ 'Relatórios' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<ul class="nav navbar-nav navbar-full menuColaboracao"
+			ng-if="hasFuncionalidade('konviva.funcionalidade.comunidades') && temPermissaoModulo('COLABORACAO') && hasRole('ROLE_MENU_USUARIO')">
+			<li>
+				<a href="" data-target="#colaboracaoMenu" data-toggle="collapse" data-parent=".menuColaboracao">
+					<span class="k-label-menu-header">{{ 'Colaboração' | translate }}</span>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+				</a>
+				<ul class="nav navbar-nav nav-stacked collapse" id="colaboracaoMenu" ng-class="{'in' : colaboracaoMenu }">
+					<li ng-class="{active: colaboracaoMenu == 'minhapagina',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'minhapagina'}">
+						<a ui-sref="colaboracao.minhapagina.posts"  ng-click="reloadSidebar()">
+							<i class="fa fa-desktop konviva-icon" aria-hidden="true"></i>
+							<i ng-if="colaboracaoMenu == 'minhapagina'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							<span> {{ 'Minha página' | translate }}</span>
+						</a>
+					</li>
+
+					<li ng-class="{active: colaboracaoMenu == 'ranking',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'ranking'}"
+						ng-if="sideBarConfiguracao['pontuacaoAtiva']" >
+						<a ui-sref="colaboracao.ranking"  ng-click="reloadSidebar()">
+							<i class="fa fa-bar-chart konviva-icon" aria-hidden="true"></i>
+							<i ng-if="colaboracaoMenu == 'ranking'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							<span> {{ 'Ranking' | translate }}</span>
+						</a>
+					</li>
+
+					<li ng-class="{active: colaboracaoMenu == 'extrato',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'extrato'}"
+						ng-if="sideBarConfiguracao['pontuacaoAtiva']" >
+						<a ui-sref="colaboracao.extrato"  ng-click="reloadSidebar()">
+							<i class="fa fa-file-text konviva-icon" aria-hidden="true"></i>
+							<i ng-if="colaboracaoMenu == 'extrato'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							<span> {{ 'Extrato de pontuação' | translate }}</span>
+						</a>
+					</li>
+
+					<li ng-class="{active: colaboracaoMenu == 'usuarios',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'usuarios'}" >
+						<a  ui-sref="colaboracao.usuarios({'listAll':1})" ng-click="reloadSidebar()">
+							<i class="fa fa-user konviva-icon" aria-hidden="true"></i>
+							<i ng-if="colaboracaoMenu == 'usuarios'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							<span> {{ 'Usuários' | translate }}</span>
+						</a>
+					</li>
+					<li ng-class="{active: colaboracaoMenu == 'quemestouseguindo',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'quemestouseguindo'}" >
+						<a ui-sref="colaboracao.quemestouseguindo"  ng-click="reloadSidebar()">
+							<i class="fa fa-user konviva-icon" aria-hidden="true"></i>
+							<span class="k-icon-seguindo">
+                                            <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                        </span>
+							<i ng-if="colaboracaoMenu == 'quemestouseguindo'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							<span> {{ 'Seguindo' | translate }}</span>
+						</a>
+					</li>
+					<li ng-class="{active: colaboracaoMenu == 'seguidores',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'seguidores'}" >
+						<a ui-sref="colaboracao.seguidores"  ng-click="reloadSidebar()">
+							<i class="fa fa-user konviva-icon" aria-hidden="true"></i>
+							<span class="k-icon-seguindo">
+                                            <i class="fa fa-caret-left" aria-hidden="true"></i>
+                                        </span>
+							<i ng-if="colaboracaoMenu == 'seguidores'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							<span> {{ 'Seguidores' | translate }}</span>
+						</a>
+					</li>
+					<li ng-class="{active: colaboracaoMenu == 'todascomunidades',  'konviva-menu-vertical-colaboracao-item' : colaboracaoMenu == 'todascomunidades'}">
+						<a ui-sref="colaboracao.todascomunidades.minhascomunidades"  ng-click="reloadSidebar()">
+							<i class="fa fa-users konviva-icon" aria-hidden="true"></i>
+							<i ng-if="colaboracaoMenu == 'todascomunidades'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							<span> {{ 'Comunidades' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<ul class="nav navbar-nav navbar-full menuGamificacao"
+			ng-if="hasFuncionalidade('konviva.funcionalidade.gamificacao') && (hasRole('ROLE_GAMIFICACAO_BADGES') || hasRole('ROLE_GAMIFICACAO_RANKING') && hasRole('ROLE_MENU_USUARIO'))">
+			<li >
+				<a href="" data-target="#menuGamificacao"  data-toggle="collapse" data-parent=".menuGamificacao">
+					<span class="k-label-menu-header">{{ 'Gamificação' | translate }}</span>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+				</a>
+				<ul class="nav navbar-nav nav-stacked collapse"  id="menuGamificacao" ng-class="{'in' : gamificacaoMenu }">
+					<li ng-class="{'active': gamificacaoMenu == 'ranking','konviva-menu-vertical-colaboracao-item': gamificacaoMenu == 'ranking'}"
+						ng-if="hasRole('ROLE_GAMIFICACAO_BADGES')">
+						<a ui-sref="gamificacao.rankings.ranking"  ng-click="reloadSidebar()">
+							<i class="fa fa-signal konviva-icon" aria-hidden="true"></i>
+							<i ng-if="gamificacaoMenu == 'ranking'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							<span> {{ 'Ranking' | translate }}</span>
+						</a>
+					</li>
+					<li ng-class="{'active': gamificacaoMenu == 'achievement','konviva-menu-vertical-colaboracao-item': gamificacaoMenu == 'achievement'}"
+						ng-if="hasRole('ROLE_GAMIFICACAO_BADGES')">
+						<a ui-sref="gamificacao.achievement.extrato"  ng-click="reloadSidebar()">
+							<i class="fa fa-list konviva-icon" aria-hidden="true"></i>
+							<i ng-if="gamificacaoMenu == 'achievement'" class="fa fa-angle-right konviva-icon-seta-menu-active"></i>
+							<span> {{ 'Conquistas' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		<ul class="nav navbar-nav navbar-full menuCompetencias" ng-if="false">
+			<li >
+				<a href="" data-target="#menuCompetencias" data-toggle="collapse" data-parent=".menuCompetencias">
+					<span class="k-label-menu-header">{{ 'Competências' | translate }}</span>
+					<i class="fa fa-caret-down" aria-hidden="true"></i>
+				</a>
+				<ul class="nav navbar-nav collapse"  id="menuCompetencias" ng-class="{'in' : gamificacaoMenu }">
+					<li>
+						<a ui-sref="aprendizagem.minhapagina.dashboard"  ng-click="reloadSidebar()">
+							<i class="fa fa-check konviva-icon" aria-hidden="true"></i>
+							<!-- <i ng-if="aprendizagemMenu == 'dashboard'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i> -->
+							<span> {{ 'Avaliações' | translate }}</span>
+						</a>
+					</li>
+
+					<li>
+						<a ui-sref="aprendizagem.catalogo.cursos"  ng-click="reloadSidebar()">
+							<i class="fa fa-book konviva-icon" aria-hidden="true"></i>
+							<!-- <i ng-if="aprendizagemMenu == 'catalogo'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i> -->
+							<span> {{ 'Conciliações' | translate }}</span>
+						</a>
+					</li>
+
+					<li>
+						<a ui-sref="aprendizagem.calendario" ng-click="reloadSidebar()">
+							<i class="fa fa-files-o konviva-icon" aria-hidden="true"></i>
+							<!-- <i ng-if="aprendizagemMenu == 'calendario'" class="fa fa-angle-right konviva-icon-seta-menu-active" aria-hidden="true"></i> -->
+							<span> {{ 'Planos' | translate }}</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+
+	</div>
+
+	<!-- Menu Perfil Administrador -->
+	<div id="menu-perfil-administrador" class="visible-xs" ng-if="hasRole('ROLE_MENU_ADMIN')" ng-controller="SidebarController">
+		<div  ng-if="username"  class="menu-perfil-administrador" >
+			<ul class="nav navbar-nav navbar-nav-admin-usuarios" ng-if="hasRole('ROLE_MENU_ADMIN')">
+				<li  ng-show="hasRoles(['ROLE_GLOBAL_MENU_USUARIOS'])">
+					<a href="" data-target="#navbar-nav-admin-usuarios" data-toggle="collapse" data-parent="#menu-perfil-administrador">
+						<span class="k-label-menu-header">{{'Usuários' | translate}}</span>
+						<i class="fa fa-caret-down" aria-hidden="true"></i>
+					</a>
+					<ul class="nav navbar-nav  nav-stacked collapse " id="navbar-nav-admin-usuarios" ng-class="{'in' : gamificacaoMenu }">
+						<li role="presentation"
+							ng-show="hasRoles(['ROLE_UNIDADES_VISUALIZAR','ROLE_UNIDADES_EDITAR','ROLE_UNIDADES_EXCLUIR','ROLE_UNIDADES_CRIAR','ROLE_UNIDADE'])">
+							<a role="menuitem" tabindex="-1" ui-sref="adminUnidade.listagem" ng-click="reloadSidebar()">
+								{{'Unidades' | translate}}
+							</a>
+						</li>
+						<li role="presentation"
+							ng-show="hasRoles(['ROLE_USUARIO_MENU','ROLE_USUARIOS_CRIAR','ROLE_USUARIOS_EDITAR','ROLE_USUARIOS_VISUALIZAR','ROLE_USUARIOS_EXCLUIR','ROLE_USUARIOS_ACESSOS'])">
+							<a role="menuitem" tabindex="-1" ui-sref="adminUsuario.listagem" ng-click="reloadSidebar()">
+								{{'Administrar Usuários' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-show="hasRoles(['ROLE_SETOR_MENU'])">
+							<a role="menuitem" tabindex="-1" ui-sref="adminSetor.listagem" ng-click="reloadSidebar()">
+								{{'Setores' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-show="hasRoles(['ROLE_CARGO_MENU'])">
+							<a role="menuitem" tabindex="-1" ui-sref="adminCargo.listagem" ng-click="reloadSidebar()">
+								{{'Cargos' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-show="hasRole('ROLE_LOCAL') && hasFuncionalidade('konviva.funcionalidade.competencias')">
+							<a role="menuitem" tabindex="-1" ui-sref="adminLocal.listagem" ng-click="reloadSidebar()">
+								{{'Alocações' | translate}}
+							</a>
+						</li>
+						<li role="presentation"
+							ng-show="hasRole('ROLE_PUBLICOALVO') && (hasFuncionalidade('konviva.funcionalidade.cursos') || hasFuncionalidade('konviva.funcionalidade.competencias'))">
+							<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('publicoAlvo')" ng-click="reloadSidebar()">
+								{{'Públicos-Alvo' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-show="hasRole('ROLE_TERMO_ACEITE_VISUALIZACAO') && menuConfiguracao['termoAceite']">
+							<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('termoAceite')" ng-click="reloadSidebar()">
+								{{'Termo de Aceite' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-show="hasRole('ROLE_FICHA_ADMIN') && menuConfiguracao['isEnableFichaInscricao']">
+							<a role="menuitem" tabindex="-1" ui-sref="adminficha.listar" ng-click="reloadSidebar()">
+								{{'Fichas de Inscrição' | translate}}
+							</a>
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+			<ul class="nav navbar-nav navbar-nav-admin-aprendizagem"
+				ng-show="hasFuncionalidade('konviva.funcionalidade.cursos') && hasRoles(['ROLE_GLOBAL_MENU_APRENDIZAGEM'])">
+				<li >
+					<a href="" data-target="#navbar-nav-admin-aprendizagem" data-toggle="collapse" data-parent=".navbar-nav-admin-aprendizagem">
+						<span class="k-label-menu-header">{{'Aprendizagem' | translate}}</span>
+						<i class="fa fa-caret-down" aria-hidden="true"></i>
+					</a>
+					<ul class="nav navbar-nav  nav-stacked collapse " id="navbar-nav-admin-aprendizagem" aria-labelledby="navbar-nav-admin-aprendizagem">
+						<li role="presentation" ng-show="hasRoles(['ROLE_CATALOGO_ADMIN'])">
+							<a role="menuitem" tabindex="-1" ui-sref="adminCatalogo.catalogo.cursos({'codCategoria':0})" ng-click="reloadSidebar()">
+								{{'Catálogo' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-show="hasRoles(['ROLE_CATALOGO_GESTOR'])">
+							<a role="menuitem" tabindex="-1" ui-sref="gestorcatalogo.catalogo.cursos({'codCategoria':0})" ng-click="reloadSidebar()">
+								{{'Catálogo' | translate}}
+							</a>
+						</li>
+
+						<li class="role_curso_admin" role="presentation"
+							ng-show="hasRoles(['ROLE_CURSO_ADMIN','ROLE_MEUS_CURSOS_ADMIN','ROLE_CURSO_CONTEUDO','ROLE_LISTAINTERESSE_ADMIN','ROLE_LOCAL_ADMIN'])">
+							<a data-target="#sub-menu-cursos" data-toggle="collapse" data-parent=".role_curso_admin" class="trigger" href="" role="menuitem">
+								{{'Cursos' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-cursos" role="menu" aria-labelledby="role_curso_admin">
+								<li role="presentation" ng-show="hasRole('ROLE_CURSO_ADMIN')">
+									<a role="menuitem" tabindex="-1" ui-sref="adminCategoriaCurso.listagem" ng-click="reloadSidebar()">
+										{{'Categorias' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-show="hasRoles(['ROLE_CURSO_ADMIN','ROLE_MEUS_CURSOS_ADMIN','ROLE_CURSO_CONTEUDO'])">
+									<a role="menuitem" tabindex="-1" ui-sref="adminCurso.listagem" ng-click="reloadSidebar()">
+										{{'Administrar Cursos' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-show="hasRole('ROLE_LISTAINTERESSE_ADMIN')">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/curso/listainteresse')" ng-click="reloadSidebar()">
+										{{'Lista de Interesse' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-show="hasRole('ROLE_LOCAL_ADMIN')">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/local')" ng-click="reloadSidebar()">
+										{{'Local' | translate}}
+									</a>
+								</li>
+							</ul><!-- /.sub-menu -->
+						</li>
+
+						<li role="presentation" class="role_turma_admin"
+							ng-show="hasRoles(['ROLE_MONITOR','ROLE_MONITOR_ADMIN','ROLE_LMS_DESEMPENHO','ROLE_TURMA_ADMIN','ROLE_LISTAR_CURSOS_TUTOR','ROLE_INSTRUTOR','ROLE_TUTOR_TURMA','ROLE_MODERADOR','ROLE_UNIDADE_ADMIN'])">
+							<a data-target="#sub-menu-turmas" data-toggle="collapse" data-parent=".role_turma_admin" href="" role="menuitem">
+								{{'Turmas' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-turmas" role="menu" aria-labelledby="role_turma_admin">
+								<li role="presentation"
+									ng-if="hasFuncionalidade('konviva.ui.mode.turmamatricula') == 'html5'" ng-show="hasRoles(['ROLE_TURMA_ADMIN','ROLE_LISTAR_CURSOS_TUTOR','ROLE_INSTRUTOR','ROLE_TUTOR_TURMA','ROLE_MODERADOR'])">
+									<a role="menuitem" tabindex="-1" ui-sref="adminTurma.listagem" ng-if="hasRole('ROLE_TURMA_ADMIN')" ng-click="reloadSidebar()">
+										{{'Administrar Turmas' | translate}}
+									</a>
+									<a role="menuitem" tabindex="-1" ui-sref="adminTurma.listagem" ng-if="!hasRole('ROLE_TURMA_ADMIN')" ng-click="reloadSidebar()">
+										{{'Acessar Turmas' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-if="!(hasFuncionalidade('konviva.ui.mode.turmamatricula') == 'html5')" ng-show="hasRole('ROLE_TURMA_ADMIN')">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/curso/listarCursoTutor')" ng-click="reloadSidebar()">
+										{{'Administrar Turmas' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-show="hasRole('ROLE_LMS_DESEMPENHO')">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/curso/desempenho')" ng-click="reloadSidebar()">
+										{{'Desempenho' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-show="hasRoles(['ROLE_MONITOR','ROLE_MONITOR_ADMIN'])">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/curso/monitorProva')" ng-click="reloadSidebar()">
+										{{'Liberação de provas' | translate}}
+									</a>
+								</li>
+							</ul><!-- /.sub-menu -->
+						</li>
+
+						<li role="presentation"
+							ng-show="hasRoles(['ROLE_LMS_CALENDARIO_ADMIN','ROLE_PROFESSOR','ROLE_TUTOR_TURMA','ROLE_INSTRUTOR','ROLE_MODERADOR','ROLE_MONITOR'])">
+							<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/calendario')">
+								{{'Calendário' | translate}}
+							</a>
+						</li>
+
+						<!--<li role="presentation" ng-show="hasRole('ROLE_SALA_FISICA_ADMIN')">
+                            <a data-target="#sub-menu-sala-fisica" data-toggle="collapse" data-parent=".role_turma_admin" href="" role="menuitem">
+                                {{'Sala Física' | translate}}
+                                <i class="fa fa-chevron-right"></i>
+                            </a>
+                            <ul class="nav navbar-nav  nav-stacked collapse  navbar sub-menu " id="sub-menu-sala-fisica" role="menu" aria-labelledby="dropdownMenu2">
+                                <li role="presentation" ng-show="hasRole('ROLE_SALA_FISICA_ADMIN')">
+                                    <a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/salaFisica')" ng-click="reloadSidebar()">
+                                        {{'Administrar Salas' | translate}}
+                                    </a>
+                                </li>
+                                <li role="presentation" ng-show="hasRole('ROLE_SALA_FISICA_ADMIN')">
+                                    <a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/recursoFisico')" ng-click="reloadSidebar()">
+                                        {{'Recursos Físicos' | translate}}
+                                    </a>
+                                </li>
+                            </ul>&lt;!&ndash; /.sub-menu &ndash;&gt;
+                        </li>-->
+
+						<li role="presentation" class="role_menu_repositorio"  ng-show="hasRole('ROLE_MENU_REPOSITORIO')"  >
+							<a data-target="#sub-menu-repositorio" data-toggle="collapse" data-parent=".role_menu_repositorio" href="" role="menuitem">
+								{{'Repositório' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse  navbar sub-menu" id="sub-menu-repositorio" role="menu">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="adminapresentacao" ng-click="reloadSidebar()">
+										{{'Apresentação' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-show="hasRole('ROLE_CERTIFICADO_ADMIN')">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/certificado')" ng-click="reloadSidebar()">
+										{{'Certificados' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="adminrecurso" ng-click="reloadSidebar()">
+										{{'Recursos' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="adminscorm" ng-click="reloadSidebar()">
+										{{'SCORM' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="adminvideolink" ng-click="reloadSidebar()">
+										{{'Vídeo-Link' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="adminvideoupload" ng-click="reloadSidebar()">
+										{{'Vídeo-Upload' | translate}}
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li role="presentation" ng-show="hasRole('ROLE_PILULA_ADMIN') && menuConfiguracao['enablePilula']">
+							<a  tabindex="-1" href="" role="menuitem" ui-sref="adminpilula.list" ng-click="reloadSidebar()">
+								{{'Pílulas de Conhecimento' | translate}}
+							</a>
+						</li>
+
+						<li role="presentation" ng-show="hasRole('ROLE_SOLICITACAO_MATRICULA_MENU')">
+							<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/solicitacao_matricula')" ng-click="reloadSidebar()">
+								{{'Solicitação de Matrículas' | translate}}
+							</a>
+						</li>
+
+						<li role="presentation" ng-show="hasRole('ROLE_TRILHA_MENU') && !menuConfiguracao['hideTrilhas']" ng-click="reloadSidebar()">
+							<a role="menuitem" tabindex="-1" ui-sref="admintrilha">
+								{{'Trilhas' | translate}}
+							</a>
+						</li>
+
+						<li role="presentation" ng-show="hasRole('ROLE_AVALIACAO_ADMIN')">
+							<a data-target="sub-menu-avaliacoes" data-toggle="collapse" data-parent=".role_turma_admin" href="" role="menuitem">
+								{{'Avaliações' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse  navbar sub-menu" id="sub-menu-avaliacoes" role="menu" aria-labelledby="dropdownMenu2">
+								<li role="presentation" ng-show="hasRole('ROLE_AVALIACAO_ADMIN')">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/avaliacao')" ng-click="reloadSidebar()">
+										{{'Administrar Avaliações' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-show="hasRole('ROLE_AVALIACAO_ADMIN')">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('lms/admin/questao')" ng-click="reloadSidebar()">
+										{{'Banco de Questões' | translate}}
+									</a>
+								</li>
+							</ul><!-- /.sub-menu -->
+						</li>
+						<li role="presentation" ng-show="hasRole('ROLE_MENU_RELATORIO')">
+							<a ng-if="false" role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/geral')" ng-click="reloadSidebar()">
+								{{'Relatórios Antigo' | translate}}
+							</a>
+							<a role="menuitem" tabindex="-1" ui-sref="adminrelatorios.listagem.padrao" ng-click="reloadSidebar()">
+								{{'Relatórios' | translate}}
+							</a>
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+			<ul class="nav navbar-nav navbar-nav-admin-colaboracao"
+				ng-show="hasFuncionalidade('konviva.funcionalidade.comunidades') && hasRoles(['ROLE_GLOBAL_MENU_COLABORACAO'])">
+				<li>
+					<a href="" data-target="#sub-menu-colaboracao" data-toggle="collapse" data-parent=".navbar-nav-admin-colaboracao">
+						<span class="k-label-menu-header">{{'Colaboração' | translate}}</span>
+						<i class="fa fa-caret-down" aria-hidden="true"></i>
+					</a>
+					<ul class="nav navbar-nav  nav-stacked collapse  navbar" id="sub-menu-colaboracao" >
+						<li class="role_comunidades">
+							<a data-target="#sub-menu-comunidades" data-toggle="collapse" data-parent=".role_comunidades" href="" role="menuitem">
+								<span class="k-label-menu-header">{{'Comunidades' | translate}}</span>
+								<i class="fa fa-caret-down" aria-hidden="true"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse  navbar " id="sub-menu-comunidades" role="menu" aria-labelledby="role_comunidades">
+								<li role="presentation" ng-show="hasRole('ROLE_COMUNIDADE_ADMIN')">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('gerenciaComunidade')" ng-click="reloadSidebar()">
+										{{'Gerenciar Comunidades' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-show="hasRole('ROLE_COMUNIDADE')">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('comunidade')" ng-click="reloadSidebar()">
+										{{'Listar Comunidades' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-show="hasRole('ROLE_REL_CONTEUDO_VISITADO_AVALIADO_MENU')">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('gerenciaComunidade/relatorios?id=conteudoVisitadoAvaliado')" ng-click="reloadSidebar()">
+										{{'Conteúdos Visitados e Avaliados' | translate}}
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li role="presentation" class="role_comunidade_admin" ng-show="hasRole('ROLE_COMUNIDADE_ADMIN') && menuConfiguracao['pontuacaoAtiva']">
+							<a data-target="#sub-menu-ranking" data-toggle="collapse" data-parent=".role_comunidade_admin" href="" role="menuitem">
+								<span class="k-label-menu-header">{{'Ranking' | translate}}</span>
+								<i class="fa fa-caret-down" aria-hidden="true"></i>
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-ranking" role="menu" aria-labelledby="role_comunidade_admin">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('gerenciaComunidade/gerenciaPontuacao')" ng-click="reloadSidebar()">
+										{{'Gerenciar Pontuações' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('gerenciaComunidade/extratoPontuacao')" ng-click="reloadSidebar()">
+										{{'Extrato de Pontuações por Usuário' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-show="hasRole('ROLE_COMUNIDADE_ADMIN') && menuConfiguracao['pontuacaoAtiva']">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('gerenciaComunidade/niveisPontuacao')" ng-click="reloadSidebar()">
+										{{'Gerenciar Níveis de Pontuação' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-show="hasRole('ROLE_REL_PONTUACAO_MENU')">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('gerenciaComunidade/niveisPontuacao')" ng-click="reloadSidebar()">
+										{{'Pontuação Geral' | translate}}
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li role="presentation" class="role_social">
+							<a data-target="#sub-menu-social" data-toggle="collapse" data-parent=".role_social" href="" role="menuitem">
+								{{'Social' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse  navbar sub-menu" id="sub-menu-social" role="menu" aria-labelledby="dropdownMenu2">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="colaboracao.minhapagina.posts" ng-click="reloadSidebar()">
+										{{'Minha página' | translate}}
+									</a>
+								</li>
+								<li role="presentation" ng-if="menuConfiguracao['pontuacaoAtiva']">
+									<a role="menuitem" tabindex="-1" ui-sref="colaboracao.ranking" ng-click="reloadSidebar()">
+										{{'Ranking' | translate}}
+									</a>
+								</li>
+								<li role="presentation"  ng-if="menuConfiguracao['pontuacaoAtiva']">
+									<a role="menuitem" tabindex="-1" ui-sref="colaboracao.extrato" ng-click="reloadSidebar()">
+										{{'Extrato de pontuação' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="colaboracao.usuarios({'listAll':1})" ng-click="reloadSidebar()">
+										{{'Usuários' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="colaboracao.quemestouseguindo" ng-click="reloadSidebar()">
+										{{'Seguindo' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="colaboracao.seguidores" ng-click="reloadSidebar()">
+										{{'Seguidores' | translate}}
+									</a>
+								</li>
+							</ul><!-- /.sub-menu -->
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+			<!-- /.menu-coloboracao -->
+			<ul class="nav navbar-nav navbar-nav-gamificacao"
+				ng-show="hasFuncionalidade('konviva.funcionalidade.gamificacao') && hasRoles(['ROLE_GLOBAL_MENU_GAMIFICACAO'])">
+				<li>
+					<a href="" data-target="#sub-funcionalidade-gamificacao"  data-toggle="collapse" data-parent=".navbar-nav-gamificacao">
+						<span class="k-label-menu-header">{{'Gamificação' | translate}}</span>
+						<i class="fa fa-caret-down" aria-hidden="true"></i>
+					</a>
+					<ul class="nav navbar-nav  nav-stacked collapse " id="sub-funcionalidade-gamificacao">
+						<li role="presentation" ng-show="hasRoles(['ROLE_GAMIFICACAO_GESTOR'])">
+							<a role="menuitem" ui-sref="gestorRanking.rankings.ranking" ng-click="reloadSidebar()">
+								{{'Ranking' | translate}}
+							</a>
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+			<!-- competencias -->
+			<ul class="nav navbar-nav navbar-nav-competencias"
+				ng-show="hasFuncionalidade('konviva.funcionalidade.competencias') && hasRoles(['ROLE_GLOBAL_MENU_COMPETENCIAS'])">
+				<li>
+					<a href="" data-target="#sub-menu-competencias"  data-toggle="collapse" data-parent=".navbar-nav-competencias">
+						<span class="k-label-menu-header">{{'Competências' | translate}}</span>
+						<i class="fa fa-caret-down" aria-hidden="true"></i>
+					</a>
+					<ul class="nav navbar-nav  nav-stacked collapse " id="sub-menu-competencias">
+						<li role="presentation" ng-show="hasRole('ROLE_AVALIACAO')">
+							<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('avaliacao')">
+								{{'Avaliação' | translate}}
+							</a>
+						</li>
+						<li role="presentation" class="role_desempenho_admin" ng-show="hasRole('ROLE_DESEMPENHO_ADMIN')">
+							<a data-target="#sub-menu-acompanhamento" data-toggle="collapse" data-parent=".role_desempenho_admin" href="" role="menuitem">
+								{{'Acompanhamento' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse   sub-menu " id="sub-menu-acompanhamento" role="menu"
+								aria-labelledby="role_desempenho_admin">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('desempenho')" ng-click="reloadSidebar()">
+										{{'Avaliações Realizadas' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('desempenho/conciliacao')" ng-click="reloadSidebar()">
+										{{'Conciliações Realizadas' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('desempenho/planos')" ng-click="reloadSidebar()">
+										{{'Planos Propostos' | translate}}
+									</a>
+								</li>
+							</ul><!-- /.sub-menu -->
+						</li>
+						<li role="presentation" ng-show="hasRole('ROLE_MAPA_COMPETENCIA')">
+							<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('mapacompetencia')" ng-click="reloadSidebar()">
+								{{'Mapa de Competências' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-show="hasRole('ROLE_COMPETENCIA')">
+							<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('competencia')" ng-click="reloadSidebar()">
+								{{'Banco de Competências' | translate}}
+							</a>
+						</li>
+						<li role="presentation" class="role_avaliacao" ng-show="hasRole('ROLE_AVALIACAO')">
+							<a data-toggle="collapse" data-target="#sub-menu-relatorios" data-parent=".role_avaliacao" href="" role="menuitem">
+								{{'Relatórios' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse sub-menu " id="sub-menu-relatorios" role="menu" aria-labelledby="dropdownMenu2">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioAvaliacao')" ng-click="reloadSidebar()">
+										{{'Avaliação' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioConciliacao')" ng-click="reloadSidebar()">
+										{{'Conciliação' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioPlanoAcao')" ng-click="reloadSidebar()">
+										{{'Planos' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioColaborador')" ng-click="reloadSidebar()">
+										{{'Por Colaborador' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioDesempenho')" ng-click="reloadSidebar()">
+										{{'Ranking' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioOrganizacional')" ng-click="reloadSidebar()">
+										{{'Organizacional' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioFuncional')" ng-click="reloadSidebar()">
+										{{'Funcional' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/relatorioIndividual')" ng-click="reloadSidebar()">
+										{{'Individual' | translate}}
+									</a>
+								</li>
+							</ul><!-- /.sub-menu -->
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+			<!-- Administração -->
+			<ul class="nav navbar-nav" ng-show="hasRoles(['ROLE_GLOBAL_MENU_ADMINISTRACAO'])" >
+				<li>
+					<a href="" data-target="#sub-menu-administracao"  data-toggle="collapse" data-parent=".menu_usuarios">
+						<span class="k-label-menu-header">{{'Administração' | translate}}</span>
+						<i class="fa fa-caret-down" aria-hidden="true"></i>
+					</a>
+					<ul class="nav navbar-nav  nav-stacked collapse " id="sub-menu-administracao">
+						<li role="presentation" ng-show="hasRole('ROLE_DESTAQUE_ADMIN')">
+							<a role="menuitem" tabindex="-1" ui-sref="adminDestaque.listagem" ng-click="reloadSidebar()">
+								{{'Destaques' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-show="hasRole('ROLE_FALECONOSCO_ADMIN')">
+							<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('config/faleConosco')" ng-click="reloadSidebar()">
+								{{'Fale conosco' | translate}}
+							</a>
+						</li>
+						<li role="presentation" class="role_gamificacao_admin" ng-show="hasRole('ROLE_GAMIFICACAO_ADMIN') && menuConfiguracao['isEnableGamificacao']">
+							<a data-target="#sub-menu-gamificacao" data-toggle="collapse" data-parent=".role_gamificacao_admin"  href="" role="menuitem">
+								{{'Gamificação' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse   sub-menu " id="sub-menu-gamificacao" role="menu" aria-labelledby="dropdownMenu2">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="adminBadges.listagem" ng-click="reloadSidebar()">
+										{{'Badges' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="adminMissoes.listagem" ng-click="reloadSidebar()">
+										{{'Missões' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="adminRanking.listagem" ng-click="reloadSidebar()">
+										{{'Ranking' | translate}}
+									</a>
+								</li>
+							</ul><!-- /.sub-menu -->
+						</li>
+
+						<li role="presentation" class="role_mensagens_admin" ng-show="hasRole('ROLE_MENSAGENS_ADMIN')">
+							<a data-target="#sub-menu-mensagens-automaticas" data-toggle="collapse" data-parent=".role_mensagens_admin" href="" role="menuitem">
+								{{'Mensagens Automáticas' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-mensagens-automaticas" role="menu" aria-labelledby="dropdownMenu2">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('mensagemAutomatica')" ng-click="reloadSidebar()">
+										{{'Notificações do Sistema' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('alerta')" ng-click="reloadSidebar()">
+										{{'Alertas Configuráveis' | translate}}
+									</a>
+								</li>
+							</ul><!-- /.sub-menu -->
+						</li>
+						<li role="presentation" ng-show="hasRole('ROLE_KONVIVA_CONFIG_LAYOUT')">
+							<a role="menuitem" tabindex="-1"  ui-sref="adminConfiguradorGeral.edit" ng-click="reloadSidebar()">
+								{{'Configurador Geral' | translate}}
+							</a>
+						</li>
+
+						<li role="presentation" class="role_konviva_config_layout" ng-show="hasRole('ROLE_KONVIVA_CONFIG_LAYOUT')">
+							<a data-target="#sub-menu-configurador-layout" data-toggle="collapse" data-parent=".role_konviva_config_layout"  href="" role="menuitem">
+								{{'Configurador de Layout' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-configurador-layout" role="menu" aria-labelledby="dropdownMenu2">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('config/layout')" ng-click="reloadSidebar()">
+										{{'Configurações Gerais' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ui-sref="adminConfigPortalExterno.edit" ng-click="reloadSidebar()">
+										{{'Portal Externo' | translate}}
+									</a>
+								</li>
+							</ul><!-- /.sub-menu -->
+						</li>
+						<li role="presentation" ng-if="isSuporte">
+							<a role="menuitem" tabindex="-1"  ui-sref="adminServerSideScript.listagem" ng-click="reloadSidebar()">
+								{{'Server Side Script' | translate}}
+							</a>
+						</li>
+
+						<li role="presentation" class="role_ecommerce_admin" ng-show="hasFuncionalidade('konviva.funcionalidade.ecommerce') && hasRole('ROLE_ECOMMERCE_ADMIN')">
+							<a data-target="#sub-menu-gestao-pagamentos" data-toggle="collapse" data-parent=".role_ecommerce_admin" href="" role="menuitem">
+								{{'Gestão Pagamentos' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul id="sub-menu-gestao-pagamentos" class="nav navbar-nav  nav-stacked collapse sub-menu" role="menu" aria-labelledby="role_ecommerce_admin">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('pagseguro/conta')" ng-click="reloadSidebar()">
+										{{'Configurar Meios de Pagamento' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('ecommerce/gestao')" ng-click="reloadSidebar()">
+										{{'Acompanhar Pedidos' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('ecommerce/administrarDescontos')" ng-click="reloadSidebar()">
+										{{'Administrar Descontos' | translate}}
+									</a>
+								</li>
+							</ul><!-- /.sub-menu -->
+						</li>
+						<li role="presentation" class="role_ecommerce_admin" ng-show="hasRole('ROLE_ECOMMERCE_ADMIN')">
+							<a data-target="#sub-menu-portal" data-toggle="collapse" data-parent=".role_ecommerce_admin"  href="" role="menuitem">
+								{{'Portal' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-portal" role="menu" aria-labelledby="dropdownMenu2">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('ecommerce/pagina')" ng-click="reloadSidebar()">
+										{{'Administrar Páginas' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('ecommerce/config')" ng-click="reloadSidebar()">
+										{{'Configurador Geral' | translate}}
+									</a>
+								</li>
+							</ul><!-- /.sub-menu -->
+						</li>
+
+						<li role="presentation" ng-show="hasRole('ROLE_KONVIVA_CONFIG_PROVEDORSINCRONO') && hasFuncionalidade('konviva.funcionalidade.cursos')">
+							<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('config/provedor_sincrono')" ng-click="reloadSidebar()">
+								{{'Provedores Síncronos' | translate}}
+							</a>
+						</li>
+
+						<li role="presentation" ng-show="hasRole('ROLE_REGRAS_ACESSO_ADMIN')">
+							<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('config/regrasAcesso')" ng-click="reloadSidebar()">
+								{{'Regras de acesso' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-show="hasRole('ROLE_CONFIG_SSO')">
+							<a role="menuitem" tabindex="-1" ui-sref="adminConfigSso.edit" ng-click="reloadSidebar()">
+								{{'Single Sign-On' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-show="hasRole('ROLE_RELATORIO_LOG')">
+							<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/log')" ng-click="reloadSidebar()">
+								{{'Relatórios de log' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-show="hasRole('ROLE_MOTOR_RELATORIO')">
+							<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('relatorios/gerenciador')" ng-click="reloadSidebar()">
+								{{'Gerar Relatórios' | translate}}
+							</a>
+						</li>
+
+						<li role="presentation" class="role_central_importacao" ng-show="hasRole('ROLE_CENTRAL_IMPORTACAO')">
+							<a data-target="#sub-menu-central" data-toggle="collapse" data-parent=".role_turma_admin"  href="" role="menuitem">
+								{{'Central de Importações' | translate}}
+								<i class="fa fa-chevron-right"></i>
+							</a>
+							<ul class="nav navbar-nav  nav-stacked collapse  sub-menu" id="sub-menu-central" role="menu" aria-labelledby="role_central_importacao">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('importacao')" ng-click="reloadSidebar()">
+										{{'Importações via interface' | translate}}
+									</a>
+								</li>
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" ng-click="gotoKonviva1('importacao/log')" ng-click="reloadSidebar()">
+										{{'Histórico de importações' | translate}}
+									</a>
+								</li>
+							</ul><!-- /.sub-menu -->
+						</li>
+						<li role="presentation" ng-show="hasRole('ROLE_CONFIG_NOMENCLATURA')">
+							<a role="menuitem" tabindex="-1" ui-sref="adminConfigNomenclatura.edit" ng-click="reloadSidebar()">
+								{{'Configurar Nomenclatura' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-if="isSuporte">
+							<a role="menuitem" tabindex="-1" ui-sref="adminConfigWebhook.list" ng-click="reloadSidebar()">
+								{{'Webhooks' | translate}}
+							</a>
+						</li>
+						<li role="presentation" ng-if="isSuporte">
+							<a role="menuitem" tabindex="-1" ui-sref="adminConfigAcoesAgendadas.list" ng-click="reloadSidebar()">
+								{{'Ações Agendadas' | translate}}
+							</a>
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+	<!-- Menu de Acessibilidade -->
+	<ul class="nav navbar-nav navbar-nav-acessibilidade  " style="display: none">
+		<li class="k-acessibilidade-menu-header clearfixvisible-xs" onclick="hideMenu()">
+			<div class="k-acessibilidade-menu">
+				<ilog-letter></ilog-letter>
+				<span>
+									<ilog-contrast file-url="css/altoKontrast.css" file-type="css"></ilog-contrast>
+								</span>
+			</div><!-- /.k-acessibilidade-menu -->
+		</li>
+	</ul>
+</div><!-- /.navbar-offcanvas -->
